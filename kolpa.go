@@ -1,56 +1,47 @@
+/*
+kolpa is a fake data generator written in and for Go.
+
+Usage:
+	k := kolpa.C()
+	k.Name()
+	k.FirstName()
+	k.Address()
+*/
+
 package kolpa
 
-var m = map[string]map[string]func() string{
-	"en_US": map[string]func() string{
-	        "name": nameGenerator_en_US,
-        	"address": addressGenerator_en_US,
-	},
-	"tr_TR": map[string]func() string{
-	        "name": nameGenerator_tr_TR,
-        	"address": addressGenerator_tr_TR,
-	},
-}
-
+// Generator struct to access various generator functions
 type Generator struct {
-	NameGenerator func() (name string)
-	AddressGenerator func() (address string)
+	Locale string
 }
 
-var Locale string
 
-func (g *Generator) populateFunctions() {
-	g.NameGenerator = m[Locale]["name"]
-}
-
-func nameGenerator_en_US() string {
-	return "Lorem ipsum"
-}
-
-func nameGenerator_tr_TR() string {
-	return "dolor sit"
-}
-
-func addressGenerator_en_US() string {
-	return "amet, consectetur"
-}
-
-func addressGenerator_tr_TR() string {
-	return "adipiscing elit"
-}
-
+// Creator function, initiates kolpa with or without locale 
+// setting. The default locale setting is `en_US`.
+// Returns a generator that has appropriate generators assigned
+// using the default locale or specified locale setting.
 func C(localeVar ...string) Generator {
 	newGenerator := Generator{}
 	if len(localeVar) > 0 {
-		Locale = localeVar[0]
+		newGenerator.Locale = localeVar[0]
 	} else {
-		Locale = "en_US"
+		newGenerator.Locale = "en_US"
 	}
-	newGenerator.populateFunctions()
+	// newGenerator.populateFunctions()
 
 	return newGenerator
 }
 
+// Populates the generator with appropriate functions by using
+// setted locale.
+// func (g *Generator) populateFunctions() {
+// 	g.Name = m[Locale]["name"]
+// 	g.Address = m[Locale]["address"]
+// }
 
-
-
-
+// Language setter function. Language setting change be changed
+// anytime by using this function.
+func (g *Generator) SetLanguage(localeVar string) {
+	g.Locale = localeVar
+	// g.populateFunctions()
+}
