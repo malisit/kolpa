@@ -28,7 +28,7 @@ func C(localeVar ...string) Generator {
 		newGenerator.Locale = "en_US"
 	}
 	// newGenerator.populateFunctions()
-
+	
 	return newGenerator
 }
 
