@@ -1,13 +1,13 @@
 package kolpa
 
 import (
-	"fmt"
+	//"fmt"
 )
 
+// BasePerson struct that stores possible first and last names
+// for both female and male.
 type BasePerson struct {
-	Formats []string
-	FormatsFemale []string
-	FormatsMale []string
+	Formats map[string]string
 	FirstNames []string
 	FirstNamesFemale []string
 	FirstNamesMale []string
@@ -20,65 +20,124 @@ type BasePerson struct {
 // Creates a BasePerson, fills it with the data
 // depending on the locale setting and returns
 // the created BasePerson.
-func (g *Generator) getBasePerson() BasePerson {
-	b := BasePerson{}
-	
+func (g *Generator) getBasePerson() *BasePerson {
+	b := &BasePerson{}
 	g.fillBase(b)
-	// Get data by locale setting
 
 	return b
 }
 
-func (g *Generator) fillBase(b BasePerson) {
-	b.Formats = g.fileToSlice("formats")
-	b.FormatsFemale = g.fileToSlice("formats_female")
-	b.FormatsMale = g.fileToSlice("formats_male")
-	b.FirstNames = g.fileToSlice("first_names")
+// Fills the BasePerson struct with proper data
+func (g *Generator) fillBase(b *BasePerson) {
+	b.Formats = g.fileToMap("formats")
 	b.FirstNamesFemale = g.fileToSlice("first_names_female")
 	b.FirstNamesMale = g.fileToSlice("first_names_male")
-	b.LastNames = g.fileToSlice("last_names")
+	b.FirstNames = appendMultiple(g.fileToSlice("first_names"), b.FirstNamesFemale, b.FirstNamesMale)
 	b.LastNamesFemale = g.fileToSlice("last_names_female")
 	b.LastNamesMale = g.fileToSlice("last_names_male")
+	b.LastNames = appendMultiple(g.fileToSlice("last_names"), b.LastNamesFemale, b.LastNamesMale)
 }
 
-
-
-
+// Name Generator Function
+// Returns a random full person name in the form of {{ First Name }} {{ Last Name }}
+// Sample Output: John Doe
 func (g *Generator) Name() string {
+	if randBool() {
+		return g.NameFemale()
+	} else {
+		return g.NameMale()
+	}
+
+}
+
+// Male Name Generator Function
+// Returns a random full male name in the form of {{ First Name }} {{ Last Name }}.
+// Sample Output: John Doe
+func (g *Generator) NameMale() string {
+	return g.FirstNameMale() + " " + g.LastNameMale()
+}
+
+// Female Name Generator Function
+// Returns a random full female name in the form of {{ First Name }} {{ Last Name }}.
+// Sample Output: Jane Doe
+func (g *Generator) NameFemale() string {
+	return g.FirstNameFemale() + " " + g.LastNameFemale()
+}
+
+
+// First Name Generator Function
+// Returns a random first name in the form of {{ First Name }}.
+// Sample Output: Jane
+func (g *Generator) FirstName() string {
+	if randBool() {
+		return g.FirstNameFemale()
+	} else {
+		return g.FirstNameMale()
+	}
+}
+
+
+// Male First Name Generator Function
+// Returns a random first male name in the form of {{ First Name }}.
+// Sample Output: John
+func (g *Generator) FirstNameMale() string {
 	b := g.getBasePerson()
-	rand.Seed(time.Now().Unix())
-	randFirstName := reasons[rand.Intn(len(b.FirstNames))]
 
+	if len(b.FirstNamesMale) == 0 {
+		return getRandom(b.FirstNames)
+	} else {
+		return getRandom(b.FirstNamesMale)
+	}
 }
 
-func (g *Generator) NameMale() {
 
+// Female First Name Generator Function
+// Returns a random first female name in the form of {{ First Name }}.
+// Sample Output: Jane
+func (g *Generator) FirstNameFemale() string {
+	b := g.getBasePerson()
+
+	if len(b.FirstNamesFemale) == 0 {
+		return getRandom(b.FirstNames)
+	} else {
+		return getRandom(b.FirstNamesFemale)
+	}
 }
 
-func (g *Generator) NameFemale() {
 
+// Last Name Generator Function
+// Returns a random last name in the form of {{ Last Name }}.
+// Sample Output: Doe
+func (g *Generator) LastName() string {
+	if randBool() {
+		return g.LastNameFemale()
+	} else {
+		return g.LastNameMale()
+	}
 }
 
-func (g *Generator) FirstName() {
+// Male Last Name Generator Function
+// Returns a random male last name in the form of {{ Last Name }}.
+// Sample Output: Doe
+func (g *Generator) LastNameMale() string {
+	b := g.getBasePerson()
 
+	if len(b.LastNamesMale) == 0 {
+		return getRandom(b.LastNames)
+	} else {
+		return getRandom(b.LastNamesMale)
+	}
 }
 
-func (g *Generator) FirstNameMale() {
+// Female Last Name Generator Function
+// Returns a random female last name in the form of {{ Last Name }}.
+// Sample Output: Doe
+func (g *Generator) LastNameFemale() string {
+	b := g.getBasePerson()
 
-}
-
-func (g *Generator) FirstNameFemale() {
-
-}
-
-func (g *Generator) LastName() {
-
-}
-
-func (g *Generator) LastNameMale() {
-
-}
-
-func (g *Generator) LastNameFemale() {
-
+	if len(b.LastNamesFemale) == 0 {
+		return getRandom(b.LastNames)
+	} else {
+		return getRandom(b.LastNamesFemale)
+	}
 }
