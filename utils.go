@@ -36,6 +36,23 @@ func appendMultiple(slices ...[]string) []string {
 }
 
 
+// Takes format and outputs the needed variables for the format
+// Sample input: `{{prefix_female}} {{female_fist_name}}`
+// Sample output: [ prefix_female female_first_name ]
+func (g *Generator) formatToSlice(format string) []string {
+	re := regexp.MustCompile(`{{(.*?)}}`)
+
+	find := re.FindAllStringSubmatch(format, -1)
+
+	res := []string{}
+
+	for _, v := range find {
+		res = append(res, v[1])
+	}
+	return res
+}
+
+
 // Reads the file 'fName' and returns its content as a slice of strings.
 func (g *Generator) fileToSlice(fName string) []string {
 	var res []string
@@ -59,6 +76,7 @@ func (g *Generator) fileToSlice(fName string) []string {
 
 	return res
 }
+
 
 // Reads the tab separated file 'fName' and returns its content as a map of strings to strings.
 func (g *Generator) fileToMap(fName string) map[string]string {
@@ -84,11 +102,13 @@ func (g *Generator) fileToMap(fName string) map[string]string {
 	return m
 }
 
+
 // Returns random item from the given string slice.
 func getRandom(options []string) string {
 	rand.Seed(time.Now().Unix())
 	return options[rand.Intn(len(options))]
 }
+
 
 // Returns random boolean variable.
 func randBool() bool {

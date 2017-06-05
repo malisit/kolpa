@@ -7,14 +7,22 @@ import (
 // BasePerson struct that stores possible first and last names
 // for both female and male.
 type BasePerson struct {
-	Formats map[string]string
+	Formats []string
+	FormatsFemale []string
+	FormatsMale []string
 	FirstNames []string
 	FirstNamesFemale []string
 	FirstNamesMale []string
 	LastNames []string
 	LastNamesFemale []string
 	LastNamesMale []string
-	Sub_Functions []func(...string)(string)
+	Prefixes []string
+	PrefixesFemale []string
+	PrefixesMale []string
+	Suffixes []string
+	SuffixesFemale []string
+	SuffixesMale []string
+	Sub_Functions map[string]func(...string)(string)
 }
 
 // Creates a BasePerson, fills it with the data
@@ -29,39 +37,166 @@ func (g *Generator) getBasePerson() *BasePerson {
 
 // Fills the BasePerson struct with proper data
 func (g *Generator) fillBase(b *BasePerson) {
-	b.Formats = g.fileToMap("formats")
+	b.FormatsFemale = g.fileToSlice("formats_female")
+	b.FormatsMale = g.fileToSlice("formats_male")
+	b.Formats = appendMultiple(g.fileToSlice("formats"), b.FormatsFemale, b.FormatsMale)
 	b.FirstNamesFemale = g.fileToSlice("first_names_female")
 	b.FirstNamesMale = g.fileToSlice("first_names_male")
 	b.FirstNames = appendMultiple(g.fileToSlice("first_names"), b.FirstNamesFemale, b.FirstNamesMale)
 	b.LastNamesFemale = g.fileToSlice("last_names_female")
 	b.LastNamesMale = g.fileToSlice("last_names_male")
 	b.LastNames = appendMultiple(g.fileToSlice("last_names"), b.LastNamesFemale, b.LastNamesMale)
+	b.SuffixesFemale = g.fileToSlice("suffixes_female")
+	b.SuffixesMale = g.fileToSlice("suffixes_male")
+	b.Suffixes = appendMultiple(g.fileToSlice("suffixes"), b.SuffixesFemale, b.SuffixesMale)
+	b.PrefixesFemale = g.fileToSlice("prefixes_female")
+	b.PrefixesMale = g.fileToSlice("prefixes_male")
+	b.Prefixes = appendMultiple(g.fileToSlice("prefixes"), b.PrefixesFemale, b.PrefixesMale)
+
 }
 
 // Name Generator Function
-// Returns a random full person name in the form of {{ First Name }} {{ Last Name }}
+// Returns a random full person name
 // Sample Output: John Doe
 func (g *Generator) Name() string {
-	if randBool() {
-		return g.NameFemale()
-	} else {
-		return g.NameMale()
+	b := g.getBasePerson()
+
+	if len(b.FormatsMale) != 0 && len(b.FormatsFemale) != 0 {
+		if randBool() {
+			return g.NameFemale()
+		} else {
+			return g.NameMale()
+		}
 	}
+	
+	format := getRandom(b.Formats)
+	vals := g.formatToSlice(format)
+
+	m := make(map[string]string)
+	
+	for _, v := range vals {
+		switch val := v; val {
+			case "first_name_female":
+				m["first_name_female"] = g.FirstNameFemale()
+			case "first_name_male":
+				m["first_name_male"] = g.FirstNameMale()
+			case "fist_name":
+				m["first_name"] = g.FirstName()
+			case "last_name_female":
+				m["last_name_female"] = g.LastNameFemale()
+			case "last_name_male":
+				m["last_name_male"] = g.LastNameMale()
+			case "last_name":
+				m["last_name"] = g.LastName()
+			case "suffix_male":
+				m["suffix_male"] = g.SuffixMale()
+			case "suffix_female":
+				m["suffix_female"] = g.SuffixFemale()
+			case "suffix":
+				m["suffix"] = g.Suffix()
+			case "prefix_male":
+				m["prefix_male"] = g.PrefixMale()
+			case "prefix_female":
+				m["prefix_female"] = g.PrefixFemale()
+			case "prefix":
+				m["prefix"] = g.Prefix()
+			default:
+				print("sth happened")
+
+		}
+	}
+
+	return g.parser(format, m)
 
 }
 
 // Male Name Generator Function
-// Returns a random full male name in the form of {{ First Name }} {{ Last Name }}.
+// Returns a random full male name.
 // Sample Output: John Doe
 func (g *Generator) NameMale() string {
-	return g.FirstNameMale() + " " + g.LastNameMale()
+	b := g.getBasePerson()
+
+	var format string
+
+	if len(b.FormatsMale) == 0 {
+		format = getRandom(b.Formats)
+	} else {
+		format = getRandom(b.FormatsMale)
+	}
+	
+	vals := g.formatToSlice(format)
+
+	m := make(map[string]string)
+
+	for _, v := range vals {
+		switch val := v; val {
+			case "first_name_male":
+				m["first_name_male"] = g.FirstNameMale()
+			case "fist_name":
+				m["first_name"] = g.FirstName()
+			case "last_name_male":
+				m["last_name_male"] = g.LastNameMale()
+			case "last_name":
+				m["last_name"] = g.LastName()
+			case "suffix_male":
+				m["suffix_male"] = g.SuffixMale()
+			case "suffix":
+				m["suffix"] = g.Suffix()
+			case "prefix_male":
+				m["prefix_male"] = g.PrefixMale()
+			case "prefix":
+				m["prefix"] = g.Prefix()
+			default:
+				print("sth happened")
+
+		}
+	}
+
+	return g.parser(format, m)
 }
 
 // Female Name Generator Function
-// Returns a random full female name in the form of {{ First Name }} {{ Last Name }}.
+// Returns a random full female name.
 // Sample Output: Jane Doe
 func (g *Generator) NameFemale() string {
-	return g.FirstNameFemale() + " " + g.LastNameFemale()
+	b := g.getBasePerson()
+	var format string
+
+	if len(b.FormatsFemale) == 0 {
+		format = getRandom(b.Formats)
+	} else {
+		format = getRandom(b.FormatsFemale)
+	}
+	
+	vals := g.formatToSlice(format)
+
+	m := make(map[string]string)
+
+	for _, v := range vals {
+		switch val := v;  val {
+			case "first_name_female":
+				m["first_name_female"] = g.FirstNameFemale()
+			case "fist_name":
+				m["first_name"] = g.FirstName()
+			case "last_name_female":
+				m["last_name_female"] = g.LastNameFemale()
+			case "last_name":
+				m["last_name"] = g.LastName()
+			case "suffix_female":
+				m["suffix_female"] = g.SuffixFemale()
+			case "suffix":
+				m["suffix"] = g.Suffix()
+			case "prefix_female":
+				m["prefix_female"] = g.PrefixFemale()
+			case "prefix":
+				m["prefix"] = g.Prefix()
+			default:
+				print("sth happened")
+
+		}
+	}
+
+	return g.parser(format, m)
 }
 
 
@@ -139,5 +274,79 @@ func (g *Generator) LastNameFemale() string {
 		return getRandom(b.LastNames)
 	} else {
 		return getRandom(b.LastNamesFemale)
+	}
+}
+
+// Prefix Generator Function
+// Returns a random prefix.
+// Sample Output: Dr.
+func (g *Generator) Prefix() string {
+	if randBool() {
+		return g.PrefixFemale()
+	} else {
+		return g.PrefixMale()
+	}
+}
+
+// Male Prefix Generator Function
+// Returns a random male prefix.
+// Sample Output: Mr.
+func (g *Generator) PrefixMale() string {
+	b := g.getBasePerson()
+
+	if len(b.PrefixesMale) == 0 {
+		return getRandom(b.Prefixes)
+	} else {
+		return getRandom(b.PrefixesMale)
+	}
+}
+
+// Female Prefix Generator Function
+// Returns a random female prefix.
+// Sample Output: Ms.
+func (g *Generator) PrefixFemale() string {
+	b := g.getBasePerson()
+
+	if len(b.PrefixesFemale) == 0 {
+		return getRandom(b.Prefixes)
+	} else {
+		return getRandom(b.PrefixesFemale)
+	}
+}
+
+// Suffix Generator Function
+// Returns a random suffix.
+// Sample Output: PhD.
+func (g *Generator) Suffix() string {
+	if randBool() {
+		return g.SuffixFemale()
+	} else {
+		return g.SuffixMale()
+	}
+}
+
+// Male Suffix Generator Function
+// Returns a random male suffix.
+// Sample Output: Jr..
+func (g *Generator) SuffixMale() string {
+	b := g.getBasePerson()
+
+	if len(b.SuffixesMale) == 0 {
+		return getRandom(b.Suffixes)
+	} else {
+		return getRandom(b.SuffixesMale)
+	}
+}
+
+// Female Suffix Generator Function
+// Returns a random female suffix.
+// Sample Output: MD.
+func (g *Generator) SuffixFemale() string {
+	b := g.getBasePerson()
+
+	if len(b.SuffixesFemale) == 0 {
+		return getRandom(b.Suffixes)
+	} else {
+		return getRandom(b.SuffixesFemale)
 	}
 }
