@@ -22,7 +22,7 @@ type BasePerson struct {
 	Suffixes []string
 	SuffixesFemale []string
 	SuffixesMale []string
-	Sub_Functions map[string]func(...string)(string)
+	Sub_Functions map[string]func()(string)
 }
 
 // Creates a BasePerson, fills it with the data
@@ -31,7 +31,19 @@ type BasePerson struct {
 func (g *Generator) getBasePerson() *BasePerson {
 	b := &BasePerson{}
 	g.fillBase(b)
-
+	b.Sub_Functions = map[string]func()(string) {
+		"first_name_female": g.FirstNameFemale,
+		"first_name_male": g.FirstNameMale,
+		"first_name": g.FirstName,
+		"last_name_female": g.LastNameFemale,
+		"last_name_male": g.LastNameMale,
+		"last_name": g.LastName,
+		"suffix_male": g.SuffixMale,
+		"suffix_female": g.SuffixFemale,
+		"suffix": g.Suffix,
+		"prefix_male": g.PrefixMale,
+		"prefix_female": g.PrefixFemale,
+	}
 	return b
 }
 
@@ -75,35 +87,7 @@ func (g *Generator) Name() string {
 	m := make(map[string]string)
 	
 	for _, v := range vals {
-		switch val := v; val {
-			case "first_name_female":
-				m["first_name_female"] = g.FirstNameFemale()
-			case "first_name_male":
-				m["first_name_male"] = g.FirstNameMale()
-			case "fist_name":
-				m["first_name"] = g.FirstName()
-			case "last_name_female":
-				m["last_name_female"] = g.LastNameFemale()
-			case "last_name_male":
-				m["last_name_male"] = g.LastNameMale()
-			case "last_name":
-				m["last_name"] = g.LastName()
-			case "suffix_male":
-				m["suffix_male"] = g.SuffixMale()
-			case "suffix_female":
-				m["suffix_female"] = g.SuffixFemale()
-			case "suffix":
-				m["suffix"] = g.Suffix()
-			case "prefix_male":
-				m["prefix_male"] = g.PrefixMale()
-			case "prefix_female":
-				m["prefix_female"] = g.PrefixFemale()
-			case "prefix":
-				m["prefix"] = g.Prefix()
-			default:
-				print("sth happened")
-
-		}
+		m[v] = b.Sub_Functions[v]()
 	}
 
 	return g.parser(format, m)
@@ -129,27 +113,7 @@ func (g *Generator) NameMale() string {
 	m := make(map[string]string)
 
 	for _, v := range vals {
-		switch val := v; val {
-			case "first_name_male":
-				m["first_name_male"] = g.FirstNameMale()
-			case "fist_name":
-				m["first_name"] = g.FirstName()
-			case "last_name_male":
-				m["last_name_male"] = g.LastNameMale()
-			case "last_name":
-				m["last_name"] = g.LastName()
-			case "suffix_male":
-				m["suffix_male"] = g.SuffixMale()
-			case "suffix":
-				m["suffix"] = g.Suffix()
-			case "prefix_male":
-				m["prefix_male"] = g.PrefixMale()
-			case "prefix":
-				m["prefix"] = g.Prefix()
-			default:
-				print("sth happened")
-
-		}
+		m[v] = b.Sub_Functions[v]()
 	}
 
 	return g.parser(format, m)
@@ -173,27 +137,7 @@ func (g *Generator) NameFemale() string {
 	m := make(map[string]string)
 
 	for _, v := range vals {
-		switch val := v;  val {
-			case "first_name_female":
-				m["first_name_female"] = g.FirstNameFemale()
-			case "fist_name":
-				m["first_name"] = g.FirstName()
-			case "last_name_female":
-				m["last_name_female"] = g.LastNameFemale()
-			case "last_name":
-				m["last_name"] = g.LastName()
-			case "suffix_female":
-				m["suffix_female"] = g.SuffixFemale()
-			case "suffix":
-				m["suffix"] = g.Suffix()
-			case "prefix_female":
-				m["prefix_female"] = g.PrefixFemale()
-			case "prefix":
-				m["prefix"] = g.Prefix()
-			default:
-				print("sth happened")
-
-		}
+		m[v] = b.Sub_Functions[v]()
 	}
 
 	return g.parser(format, m)
