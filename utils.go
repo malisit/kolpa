@@ -7,6 +7,7 @@ import (
 	"log"
 	"math/rand"
 	"strings"
+	"io/ioutil"
 	"time"
 )
 
@@ -105,18 +106,35 @@ func (g *Generator) fileToMap(fName string) map[string]string {
 
 // Returns random item from the given string slice.
 func getRandom(options []string) string {
-	rand.Seed(time.Now().Unix())
+	rand.Seed(time.Now().UTC().UnixNano())
 	return options[rand.Intn(len(options))]
 }
 
 
 // Returns random boolean variable.
 func randBool() bool {
-	rand.Seed(time.Now().Unix())
+	rand.Seed(time.Now().UTC().UnixNano())
 	val := rand.Float64()
 	if val <= 0.5 {
 		return true
 	} else {
 		return false
 	}
+}
+
+// Returns all possible data for languages
+func GetLanguages() []string {
+	path := os.Getenv("GOPATH") + "/src/kolpa/data/"
+	files, _ := ioutil.ReadDir(path)
+	var n string
+	var res []string
+
+	for _, f := range files {
+		n = string(f.Name())
+		if string(n[0]) != "." {
+			res = append(res, f.Name())
+		}
+	}
+
+    return res
 }

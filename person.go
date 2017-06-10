@@ -198,14 +198,15 @@ func (g *Generator) SuffixFemale() string {
 // Sample Output: Jane
 func (g *Generator) genericGenerator(intended string) string {
 	withSex := g.fileToSlice(intended)
+	words := strings.Split(intended, "_")
+	intendedWithoutSex := strings.Join(words[:len(words)-1], "_")
+	withoutSex := appendMultiple(g.fileToSlice(intendedWithoutSex), g.fileToSlice(fmt.Sprint(intendedWithoutSex, "_female")), g.fileToSlice(fmt.Sprint(intendedWithoutSex, "_male")))
 
-	if len(withSex) == 0 {
-		words := strings.Split(intended, "_")
-		intendedWithoutSex := strings.Join(words[:len(words)-1], "_")
-		withoutSex := appendMultiple(g.fileToSlice(intendedWithoutSex), g.fileToSlice(fmt.Sprint(intendedWithoutSex, "_female")), g.fileToSlice(fmt.Sprint(intendedWithoutSex, "_male")))
-
+	if len(withSex) == 0 && len(withoutSex) != 0 {
 		return getRandom(withoutSex)
-	} else {
+	} else if len(withSex) != 0 {
 		return getRandom(withSex)
+	} else {
+		return "There is no data for " + words[1] + "."
 	}
 }
