@@ -6,7 +6,7 @@ import (
 
 func TestPerson(t *testing.T) {
 	k := C()
-	for _, lang := range GetLanguages() {
+	for _, lang := range getLanguages() {
 		k.SetLanguage(lang)
 
 		name := k.Name()

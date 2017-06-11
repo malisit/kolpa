@@ -10,6 +10,8 @@ Usage:
 
 package kolpa
 
+import ()
+
 // Generator struct to access various generator functions
 type Generator struct {
 	Locale string
@@ -17,9 +19,8 @@ type Generator struct {
 
 
 // Creator function, initiates kolpa with or without locale 
-// setting. The default locale setting is `en_US`.
-// Returns a generator that has appropriate generators assigned
-// using the default locale or specified locale setting.
+// setting. The default locale setting is "en_US".
+// Returns a generator type that will be used to call generator methods.
 func C(localeVar ...string) Generator {
 	newGenerator := Generator{}
 	if len(localeVar) > 0 {
