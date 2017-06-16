@@ -10,7 +10,9 @@ Usage:
 
 package kolpa
 
-import ()
+import (
+	"strings"
+)
 
 // Generator struct to access various generator functions
 type Generator struct {
@@ -36,5 +38,45 @@ func C(localeVar ...string) Generator {
 // anytime by using this function.
 func (g *Generator) SetLanguage(localeVar string) {
 	g.Locale = localeVar
-	// g.populateFunctions()
+}
+
+
+// Generic generator function.
+// Recursively generates data for intended data type.
+// intended variable should be slug version of a valid data type.
+func (g *Generator) GenericGenerator(intended string) string {
+	var result string
+	var slice []string
+
+	if len(g.fileToSlice(intended)) == 0 {
+		slice = g.fileToSliceAll(intended)
+	} else {
+		slice = g.fileToSlice(intended)
+	}
+	
+	if len(slice) == 0 {
+		words := strings.Split(intended, "_")
+ 		intendedNew := strings.Join(words[:len(words)-1], "_")
+ 		slice = g.fileToSlice(intendedNew)
+ 		if len(slice) == 0 {
+ 			return ""
+ 		}
+	} 
+
+	if g.isParseable(slice) {
+		randomFormat := getRandom(slice)
+		tokens := g.formatToSlice(randomFormat)
+	
+		randomItems := make(map[string]string)
+
+		for _, token := range tokens {
+			randomItems[token] = g.GenericGenerator(token)
+		}
+
+		result = g.parser(randomFormat, randomItems)
+	} else {
+		result = getRandom(slice)
+	}
+	
+	return result
 }

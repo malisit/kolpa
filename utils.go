@@ -35,6 +35,24 @@ func appendMultiple(slices ...[]string) []string {
 	return base
 }
 
+//
+func (g *Generator) appendMultipleWithSlice(slices []string) []string {
+	var result [][]string
+
+	for _, v := range slices {
+		result = append(result, g.fileToSlice(v))
+	}
+
+	base := result[0]
+	rest := result[1:]
+
+	for _, slice := range rest {
+		base = append(base, slice...)
+	}
+
+	return base
+}
+
 // Takes format and outputs the needed variables for the format
 // Sample input: `{{prefix_female}} {{female_fist_name}}`
 // Sample output: [ prefix_female female_first_name ]
@@ -71,6 +89,44 @@ func (g *Generator) fileToSlice(fName string) []string {
 		log.Fatal(err)
 	}
 
+	return res
+}
+
+
+func (g *Generator) fileToSliceAll(fName string) []string {
+	var res []string
+	var err error
+	var file *os.File
+
+	path := os.Getenv("GOPATH") + "/src/github.com/malisit/kolpa/data/" + g.Locale + "/"
+
+	f, _ := os.Open(path)
+	l, _ := f.Readdirnames(-1)
+
+	fNames := l[:0]
+	for _, x := range l {
+		if strings.HasPrefix(x, fName) {
+			fNames = append(fNames, x)
+		}
+	}
+
+	for _, name := range fNames {
+		file, err = os.Open(path + name)
+
+		if err != nil {
+			return res
+		}
+		defer file.Close()
+
+		scanner := bufio.NewScanner(file)
+		for scanner.Scan() {
+			res = append(res, scanner.Text())
+		}
+
+		if err := scanner.Err(); err != nil {
+			log.Fatal(err)
+		}
+	}
 	return res
 }
 
@@ -130,4 +186,19 @@ func getLanguages() []string {
 	}
 
 	return res
+}
+
+// Returns if given file is contains parseable content or not
+func (g *Generator) isParseable(sl []string) bool {
+	if len(sl) == 0 {
+		return false
+	}
+
+	re := regexp.MustCompile(`{{(.*?)}}`)
+
+	if match := re.FindString(sl[0]); len(match) > 0 {
+		return true
+	} else {
+		return false
+	}
 }
