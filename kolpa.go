@@ -17,8 +17,7 @@ type Generator struct {
 	Locale string
 }
 
-
-// Creator function, initiates kolpa with or without locale 
+// Creator function, initiates kolpa with or without locale
 // setting. The default locale setting is "en_US".
 // Returns a generator type that will be used to call generator methods.
 func C(localeVar ...string) Generator {
@@ -29,16 +28,9 @@ func C(localeVar ...string) Generator {
 		newGenerator.Locale = "en_US"
 	}
 	// newGenerator.populateFunctions()
-	
+
 	return newGenerator
 }
-
-// Populates the generator with appropriate functions by using
-// setted locale.
-// func (g *Generator) populateFunctions() {
-// 	g.Name = m[Locale]["name"]
-// 	g.Address = m[Locale]["address"]
-// }
 
 // Language setter function. Language setting change be changed
 // anytime by using this function.

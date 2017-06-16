@@ -1,13 +1,13 @@
 package kolpa
 
 import (
-	"regexp"
 	"bufio"
-	"os"
+	"io/ioutil"
 	"log"
 	"math/rand"
+	"os"
+	"regexp"
 	"strings"
-	"io/ioutil"
 	"time"
 )
 
@@ -23,19 +23,17 @@ func (g *Generator) parser(text string, m map[string]string) string {
 	return string(src)
 }
 
-
 // Concatenates multiple string slices by using append function and returns new slice.
 func appendMultiple(slices ...[]string) []string {
 	base := slices[0]
 	rest := slices[1:]
-	
+
 	for _, slice := range rest {
 		base = append(base, slice...)
 	}
 
 	return base
 }
-
 
 // Takes format and outputs the needed variables for the format
 // Sample input: `{{prefix_female}} {{female_fist_name}}`
@@ -53,7 +51,6 @@ func (g *Generator) formatToSlice(format string) []string {
 	return res
 }
 
-
 // Reads the file 'fName' and returns its content as a slice of strings.
 func (g *Generator) fileToSlice(fName string) []string {
 	var res []string
@@ -61,10 +58,9 @@ func (g *Generator) fileToSlice(fName string) []string {
 	file, err := os.Open(path)
 
 	if err != nil {
-		return res	
+		return res
 	}
 	defer file.Close()
-	
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
@@ -78,7 +74,6 @@ func (g *Generator) fileToSlice(fName string) []string {
 	return res
 }
 
-
 // Reads the tab separated file 'fName' and returns its content as a map of strings to strings.
 func (g *Generator) fileToMap(fName string) map[string]string {
 	m := make(map[string]string)
@@ -86,7 +81,7 @@ func (g *Generator) fileToMap(fName string) map[string]string {
 	file, err := os.Open(path)
 
 	if err != nil {
-		return m	
+		return m
 	}
 	defer file.Close()
 
@@ -103,13 +98,11 @@ func (g *Generator) fileToMap(fName string) map[string]string {
 	return m
 }
 
-
 // Returns random item from the given string slice.
 func getRandom(options []string) string {
 	rand.Seed(time.Now().UTC().UnixNano())
 	return options[rand.Intn(len(options))]
 }
-
 
 // Returns random boolean variable.
 func randBool() bool {
@@ -136,5 +129,5 @@ func getLanguages() []string {
 		}
 	}
 
-    return res
+	return res
 }

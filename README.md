@@ -9,7 +9,7 @@ k.FirstName() // Returns Jane
 k.NameFemale() // Returns Jane Doe
 ```
 
-You can set language setting when initiating *kolpa*.
+You can set language setting when initiating `kolpa`.
 ``` go
 k := kolpa.C("en_US")
 ```
