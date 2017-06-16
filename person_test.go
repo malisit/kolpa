@@ -2,6 +2,7 @@ package kolpa
 
 import (
 	"testing"
+	"reflect"
 )
 
 func TestPerson(t *testing.T) {
@@ -10,77 +11,92 @@ func TestPerson(t *testing.T) {
 		k.SetLanguage(lang)
 
 		name := k.Name()
-		if name == "" {
+		typeOfOutput := reflect.TypeOf(name).Kind()
+		if typeOfOutput != reflect.String {
 			t.Errorf("Name generation is failed for %s.", lang)
 		}
 
 		name = k.NameMale()
-		if name == "" {
+		typeOfOutput = reflect.TypeOf(name).Kind()
+		if typeOfOutput != reflect.String {
 			t.Errorf("NameMale generation is failed for %s.", lang)
 		}
 
 		name = k.NameFemale()
-		if name == "" {
+		typeOfOutput = reflect.TypeOf(name).Kind()
+		if typeOfOutput != reflect.String {
 			t.Errorf("NameMale generation is failed for %s.", lang)
 		}
 
 		name = k.FirstName()
-		if name == "" {
+		typeOfOutput = reflect.TypeOf(name).Kind()
+		if typeOfOutput != reflect.String {
 			t.Errorf("FirstName generation is failed for %s.", lang)
 		}
 
 		name = k.FirstNameMale()
-		if name == "" {
+		typeOfOutput = reflect.TypeOf(name).Kind()
+		if typeOfOutput != reflect.String {
 			t.Errorf("FirstNameMale generation is failed for %s.", lang)
 		}
 
 		name = k.FirstNameFemale()
-		if name == "" {
+		typeOfOutput = reflect.TypeOf(name).Kind()
+		if typeOfOutput != reflect.String {
 			t.Errorf("FirstNameFemale generation is failed for %s.", lang)
 		}
 
 		name = k.LastName()
-		if name == "" {
+		typeOfOutput = reflect.TypeOf(name).Kind()
+		if typeOfOutput != reflect.String {
 			t.Errorf("LastName generation is failed for %s.", lang)
 		}
 
 		name = k.LastNameMale()
-		if name == "" {
+		typeOfOutput = reflect.TypeOf(name).Kind()
+		if typeOfOutput != reflect.String {
 			t.Errorf("LastNameMale generation is failed for %s.", lang)
 		}
 
 		name = k.LastNameFemale()
-		if name == "" {
+		typeOfOutput = reflect.TypeOf(name).Kind()
+		if typeOfOutput != reflect.String {
 			t.Errorf("LastNameFemale generation is failed for %s.", lang)
 		}
 
 		name = k.Prefix()
-		if name == "" {
+		typeOfOutput = reflect.TypeOf(name).Kind()
+		if typeOfOutput != reflect.String {
 			t.Errorf("Prefix generation is failed for %s.", lang)
 		}
 
 		name = k.PrefixMale()
-		if name == "" {
+		typeOfOutput = reflect.TypeOf(name).Kind()
+		if typeOfOutput != reflect.String {
 			t.Errorf("PrefixMale generation is failed for %s.", lang)
 		}
 
 		name = k.PrefixFemale()
-		if name == "" {
+		typeOfOutput = reflect.TypeOf(name).Kind()
+		if typeOfOutput != reflect.String {
 			t.Errorf("PrefixFemale generation is failed for %s.", lang)
 		}
 
 		name = k.Suffix()
-		if name == "" {
+		typeOfOutput = reflect.TypeOf(name).Kind()
+		if typeOfOutput != reflect.String {
 			t.Errorf("Suffix generation is failed for %s.", lang)
 		}
 
 		name = k.SuffixMale()
-		if name == "" {
+		typeOfOutput = reflect.TypeOf(name).Kind()
+		if typeOfOutput != reflect.String {
 			t.Errorf("SuffixMale generation is failed for %s.", lang)
 		}
 
 		name = k.SuffixFemale()
-		if name == "" {
+		typeOfOutput = reflect.TypeOf(name).Kind()
+		if typeOfOutput != reflect.String {
 			t.Errorf("SuffixFemale generation is failed for %s.", lang)
 		}
 	}
