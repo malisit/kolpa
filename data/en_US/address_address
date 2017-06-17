@@ -1,0 +1,9 @@
+{{address_street_address}}, {{address_city}}, {{address_state_abbr}} {{address_postcode}}
+{{address_street_address}}, {{address_city}}, {{address_state_abbr}} {{address_postcode}}
+{{address_street_address}}, {{address_city}}, {{address_state_abbr}} {{address_postcode}}
+{{address_street_address}}, {{address_city}}, {{address_state_abbr}} {{address_postcode}}
+{{address_street_address}}, {{address_city}}, {{address_state}} {{address_postcode}}
+{{address_street_address}}, {{address_city}}, {{address_state}} {{address_postcode}}
+{{address_military_apo}}, APO {{address_military_state_abbr}} {{address_postcode}}
+{{address_military_ship}} {{person_last_name}}, FPO {{address_military_state_abbr}} {{address_postcode}}
+{{address_military_dpo}}, DPO {{address_military_state_abbr}} {{address_postcode}}

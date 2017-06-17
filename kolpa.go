@@ -63,20 +63,25 @@ func (g *Generator) GenericGenerator(intended string) string {
  		}
 	} 
 
-	if g.isParseable(slice) {
-		randomFormat := getRandom(slice)
-		tokens := g.formatToSlice(randomFormat)
-	
-		randomItems := make(map[string]string)
+	switch g.lineType(slice) {
+		case "numeric":
+			result = numericRandomizer(getRandom(slice))
+		case "parseable":
+			randomFormat := getRandom(slice)
+			tokens := g.formatToSlice(randomFormat)
+		
+			randomItems := make(map[string]string)
 
-		for _, token := range tokens {
-			randomItems[token] = g.GenericGenerator(token)
-		}
+			for _, token := range tokens {
+				randomItems[token] = g.GenericGenerator(token)
+			}
 
-		result = g.parser(randomFormat, randomItems)
-	} else {
-		result = getRandom(slice)
+			result = g.parser(randomFormat, randomItems)
+
+		default:
+			result = getRandom(slice)
 	}
+
 	
 	return result
 }

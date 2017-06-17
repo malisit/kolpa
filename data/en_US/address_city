@@ -1,0 +1,4 @@
+{{address_city_prefix}} {{person_first_name}}{{address_city_suffix}}
+{{address_city_prefix}} {{person_first_name}}
+{{person_first_name}}{{address_city_suffix}}
+{{person_last_name}}{{address_city_suffix}}

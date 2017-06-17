@@ -9,6 +9,7 @@ import (
 	"regexp"
 	"strings"
 	"time"
+	"fmt"
 )
 
 // Parses and replaces tags in a text with provided values in the map m.
@@ -69,7 +70,7 @@ func (g *Generator) formatToSlice(format string) []string {
 	return res
 }
 
-// Reads the file 'fName' and returns its content as a slice of strings.
+// Reads the file "fName" and returns its content as a slice of strings.
 func (g *Generator) fileToSlice(fName string) []string {
 	var res []string
 	path := os.Getenv("GOPATH") + "/src/github.com/malisit/kolpa/data/" + g.Locale + "/" + fName
@@ -92,7 +93,7 @@ func (g *Generator) fileToSlice(fName string) []string {
 	return res
 }
 
-
+// Reads the all files starting with "fName" and returns their content as a slice of strings.
 func (g *Generator) fileToSliceAll(fName string) []string {
 	var res []string
 	var err error
@@ -171,7 +172,7 @@ func randBool() bool {
 	}
 }
 
-// Returns all possible data for languages
+// Returns all possible data for languages.
 func getLanguages() []string {
 	path := os.Getenv("GOPATH") + "/src/github.com/malisit/kolpa/data/"
 	files, _ := ioutil.ReadDir(path)
@@ -188,7 +189,7 @@ func getLanguages() []string {
 	return res
 }
 
-// Returns if given file is contains parseable content or not
+// Returns if given file is contains parseable content or not.
 func (g *Generator) isParseable(sl []string) bool {
 	if len(sl) == 0 {
 		return false
@@ -201,4 +202,31 @@ func (g *Generator) isParseable(sl []string) bool {
 	} else {
 		return false
 	}
+}
+
+// Returns if given file contains content that needs to be replaced with numeric values.
+func (g *Generator) isNumeric(sl []string) bool {
+	return strings.Contains(sl[0], "#")
+}
+
+// Returns a data lines type. Type can be "numeric", "parseable" and "normal".
+func (g *Generator) lineType(sl []string) string {
+	if g.isNumeric(sl) {
+		return "numeric"
+	} else if g.isParseable(sl) {
+		return "parseable"
+	} else {
+		return "normal"
+	}
+}
+
+// Replaces replaceable numeric data line with random numbers.
+// Sample input: #####-####
+// Sample output: 45125-4104
+func numericRandomizer(s string) string {
+	r, _ := regexp.Compile("#")
+
+	return r.ReplaceAllStringFunc(s, func(a string) string {
+		return fmt.Sprint(rand.Int31n(10))
+	})
 }
