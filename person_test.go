@@ -1,8 +1,8 @@
 package kolpa
 
 import (
-	"testing"
 	"reflect"
+	"testing"
 )
 
 func TestPerson(t *testing.T) {

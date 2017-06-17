@@ -18,7 +18,7 @@ func (g *Generator) NameMale() string {
 
 // Female name generator function.
 // A convenience function, same as g.GenericGenerator("person_format_female").
-// Returns a random full female name by using a random female name format.  
+// Returns a random full female name by using a random female name format.
 // Sample Output: Jane Doe
 func (g *Generator) NameFemale() string {
 	return g.GenericGenerator("person_name_female")
