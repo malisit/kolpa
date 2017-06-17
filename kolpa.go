@@ -11,6 +11,7 @@ Usage:
 package kolpa
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -40,48 +41,48 @@ func (g *Generator) SetLanguage(localeVar string) {
 	g.Locale = localeVar
 }
 
-
 // Generic generator function.
 // Recursively generates data for intended data type.
 // intended variable should be slug version of a valid data type.
 func (g *Generator) GenericGenerator(intended string) string {
 	var result string
 	var slice []string
+	var err error
 
-	if len(g.fileToSlice(intended)) == 0 {
-		slice = g.fileToSliceAll(intended)
-	} else {
-		slice = g.fileToSlice(intended)
+	slice, err = g.fileToSlice(intended)
+
+	if err != nil {
+		slice, err = g.fileToSliceAll(intended)
 	}
-	
-	if len(slice) == 0 {
+
+	if err != nil {
 		words := strings.Split(intended, "_")
- 		intendedNew := strings.Join(words[:len(words)-1], "_")
- 		slice = g.fileToSlice(intendedNew)
- 		if len(slice) == 0 {
- 			return ""
- 		}
-	} 
+		intendedNew := strings.Join(words[:len(words)-1], "_")
+		slice, err = g.fileToSlice(intendedNew)
+	}
+
+	if err != nil {
+		return fmt.Sprint("Warning: There is no file for", g.Locale, " and ", intended, " to generate.")
+	}
 
 	switch g.lineType(slice) {
-		case "numeric":
-			result = numericRandomizer(getRandom(slice))
-		case "parseable":
-			randomFormat := getRandom(slice)
-			tokens := g.formatToSlice(randomFormat)
-		
-			randomItems := make(map[string]string)
+	case "numeric":
+		result = numericRandomizer(getRandom(slice))
+	case "parseable":
+		randomFormat := getRandom(slice)
+		tokens := g.formatToSlice(randomFormat)
 
-			for _, token := range tokens {
-				randomItems[token] = g.GenericGenerator(token)
-			}
+		randomItems := make(map[string]string)
 
-			result = g.parser(randomFormat, randomItems)
+		for _, token := range tokens {
+			randomItems[token] = g.GenericGenerator(token)
+		}
 
-		default:
-			result = getRandom(slice)
+		result = g.parser(randomFormat, randomItems)
+
+	default:
+		result = getRandom(slice)
 	}
 
-	
 	return result
 }

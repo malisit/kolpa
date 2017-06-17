@@ -2,6 +2,7 @@ package kolpa
 
 import (
 	"bufio"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"math/rand"
@@ -9,7 +10,6 @@ import (
 	"regexp"
 	"strings"
 	"time"
-	"fmt"
 )
 
 // Parses and replaces tags in a text with provided values in the map m.
@@ -36,12 +36,18 @@ func appendMultiple(slices ...[]string) []string {
 	return base
 }
 
-//
-func (g *Generator) appendMultipleWithSlice(slices []string) []string {
+// Concatenates a slice of string slices into a string slice
+func (g *Generator) appendMultipleWithSlice(slices []string) ([]string, error) {
 	var result [][]string
+	var slice []string
+	var err error
 
 	for _, v := range slices {
-		result = append(result, g.fileToSlice(v))
+		slice, err = g.fileToSlice(v)
+		if err != nil {
+			return nil, err
+		}
+		result = append(result, slice)
 	}
 
 	base := result[0]
@@ -51,7 +57,7 @@ func (g *Generator) appendMultipleWithSlice(slices []string) []string {
 		base = append(base, slice...)
 	}
 
-	return base
+	return base, nil
 }
 
 // Takes format and outputs the needed variables for the format
@@ -71,13 +77,13 @@ func (g *Generator) formatToSlice(format string) []string {
 }
 
 // Reads the file "fName" and returns its content as a slice of strings.
-func (g *Generator) fileToSlice(fName string) []string {
+func (g *Generator) fileToSlice(fName string) ([]string, error) {
 	var res []string
 	path := os.Getenv("GOPATH") + "/src/github.com/malisit/kolpa/data/" + g.Locale + "/" + fName
 	file, err := os.Open(path)
 
 	if err != nil {
-		return res
+		return nil, err
 	}
 	defer file.Close()
 
@@ -87,22 +93,32 @@ func (g *Generator) fileToSlice(fName string) []string {
 	}
 
 	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
+		return nil, err
 	}
 
-	return res
+	return res, nil
 }
 
 // Reads the all files starting with "fName" and returns their content as a slice of strings.
-func (g *Generator) fileToSliceAll(fName string) []string {
+func (g *Generator) fileToSliceAll(fName string) ([]string, error) {
 	var res []string
 	var err error
 	var file *os.File
 
 	path := os.Getenv("GOPATH") + "/src/github.com/malisit/kolpa/data/" + g.Locale + "/"
 
-	f, _ := os.Open(path)
-	l, _ := f.Readdirnames(-1)
+	f, err := os.Open(path)
+
+	if err != nil {
+		return nil, err
+	}
+
+	l, err := f.Readdirnames(-1)
+
+	if err != nil {
+		return nil, err
+	}
 
 	fNames := l[:0]
 	for _, x := range l {
@@ -115,7 +131,7 @@ func (g *Generator) fileToSliceAll(fName string) []string {
 		file, err = os.Open(path + name)
 
 		if err != nil {
-			return res
+			return nil, err
 		}
 		defer file.Close()
 
@@ -125,10 +141,15 @@ func (g *Generator) fileToSliceAll(fName string) []string {
 		}
 
 		if err := scanner.Err(); err != nil {
-			log.Fatal(err)
+			return nil, err
 		}
 	}
-	return res
+
+	if len(res) == 0 {
+		return nil, fmt.Errorf("asd")
+	}
+
+	return res, nil
 }
 
 // Reads the tab separated file 'fName' and returns its content as a map of strings to strings.
