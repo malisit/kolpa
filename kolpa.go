@@ -20,7 +20,7 @@ type Generator struct {
 	Locale string
 }
 
-// Creator function, initiates kolpa with or without locale
+// C is the creator function, initiates kolpa with or without locale
 // setting. The default locale setting is "en_US".
 // Returns a generator type that will be used to call generator methods.
 func C(localeVar ...string) Generator {
@@ -35,15 +35,15 @@ func C(localeVar ...string) Generator {
 	return newGenerator
 }
 
-// Language setter function. Language setting change be changed
+// SetLanguage is the language setter function. Language setting change be changed
 // anytime by using this function.
 func (g *Generator) SetLanguage(localeVar string) {
 	g.Locale = localeVar
 }
 
-// Generic generator function.
+// GenericGenerator is the generic function that powers all generations within kolpa.
 // Recursively generates data for intended data type.
-// intended variable should be slug version of a valid data type.
+// Intended variable should be slug version of a valid data type.
 func (g *Generator) GenericGenerator(intended string) string {
 	var result string
 	var slice []string

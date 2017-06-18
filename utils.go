@@ -188,9 +188,9 @@ func randBool() bool {
 	val := rand.Float64()
 	if val <= 0.5 {
 		return true
-	} else {
-		return false
 	}
+
+	return false
 }
 
 // Returns all possible data for languages.
@@ -220,9 +220,9 @@ func (g *Generator) isParseable(sl []string) bool {
 
 	if match := re.FindString(sl[0]); len(match) > 0 {
 		return true
-	} else {
-		return false
 	}
+
+	return false
 }
 
 // Returns if given file contains content that needs to be replaced with numeric values.
