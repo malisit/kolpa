@@ -3,15 +3,25 @@
 
 ## usage
 ``` go
-k := kolpa.C() // Initiate kolpa
-k.Name() // Returns John Doe
-k.FirstName() // Returns Jane
-k.NameFemale() // Returns Jane Doe
+package main
+
+import (
+	"fmt"
+	"github.com/malisit/kolpa"
+)
+
+func main() {
+	k := kolpa.C() // Initiate kolpa
+	
+	fmt.Println(k.FirstName()) // Prints John
+	fmt.Println(k.Address()) // Prints 729 Richmond Springs Suite 949, Luisborough, VT 85700-5554
+
+}
 ```
 
-You can set language setting when initiating `kolpa`.
+You can set language when initiating `kolpa`.
 ``` go
-k := kolpa.C("en_US")
+k := kolpa.C("tr_TR")
 ```
 
 Language can be setted afterwards as well.
