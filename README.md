@@ -19,7 +19,7 @@ func main() {
 }
 ```
 
-You can set language when initiating `kolpa`.
+You can set language when initiating *kolpa*.
 ``` go
 k := kolpa.C("tr_TR")
 ```
