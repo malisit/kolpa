@@ -75,27 +75,26 @@ func (g *Generator) GenericGenerator(intended string) string {
 	src = search.ReplaceAllFunc(src, func(s []byte) []byte {
 		splitted := strings.Split(string(s)[2:len(s)-2],"_")
 		typeOfToken := splitted[0]
-		
-		switch typeOfToken {
-			case "numericToken":
-				length, err := strconv.Atoi(splitted[1])
-				gt, err2 := strconv.Atoi(splitted[2])
-				lt, err3 := strconv.Atoi(splitted[3])
+		if g.isParseable(line) {
+			switch typeOfToken {
+				case "numericToken":
+					length, err := strconv.Atoi(splitted[1])
+					gt, err2 := strconv.Atoi(splitted[2])
+					lt, err3 := strconv.Atoi(splitted[3])
 
-				if err != nil && err2 != nil && err3 != nil {
-					return []byte("some problems here")
-				}
+					if err != nil && err2 != nil && err3 != nil {
+						return []byte("some problems here")
+					}
 
-				result = g.numericRandomizer(length, gt, lt)
+					result = g.numericRandomizer(length, gt, lt)
 
-			case "textualToken":
-				result = g.GenericGenerator(strings.Join(splitted[1:], "_"))
-
-			default:
-				result = string(s)
+				default:
+					result = g.GenericGenerator(string(s[2:len(s)-2]))
+			}
 		}
 
 		return []byte(result)
+
 	})
 
 	return string(src)

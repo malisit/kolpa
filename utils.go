@@ -213,14 +213,14 @@ func getLanguages() []string {
 }
 
 // Returns if given file is contains parseable content or not.
-func (g *Generator) isParseable(sl []string) bool {
+func (g *Generator) isParseable(sl string) bool {
 	if len(sl) == 0 {
 		return false
 	}
 
 	re := regexp.MustCompile(`{{(.*?)}}`)
 
-	if match := re.FindString(sl[0]); len(match) > 0 {
+	if match := re.FindString(sl); len(match) > 0 {
 		return true
 	}
 
