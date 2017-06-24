@@ -13,6 +13,8 @@ package kolpa
 import (
 	"fmt"
 	"strings"
+	"regexp"
+	"strconv"
 )
 
 // Generator struct to access various generator functions
@@ -65,24 +67,36 @@ func (g *Generator) GenericGenerator(intended string) string {
 		return fmt.Sprint("Warning: There is no file for", g.Locale, " and ", intended, " to generate.")
 	}
 
-	switch g.lineType(slice) {
-	case "numeric":
-		result = numericRandomizer(getRandom(slice))
-	case "parseable":
-		randomFormat := getRandom(slice)
-		tokens := g.formatToSlice(randomFormat)
+	line := getRandom(slice)
 
-		randomItems := make(map[string]string)
+	src := []byte(line)
+	search := regexp.MustCompile(`{{(.*?)}}`)
 
-		for _, token := range tokens {
-			randomItems[token] = g.GenericGenerator(token)
+	src = search.ReplaceAllFunc(src, func(s []byte) []byte {
+		splitted := strings.Split(string(s)[2:len(s)-2],"_")
+		typeOfToken := splitted[0]
+		
+		switch typeOfToken {
+			case "numericToken":
+				length, err := strconv.Atoi(splitted[1])
+				gt, err2 := strconv.Atoi(splitted[2])
+				lt, err3 := strconv.Atoi(splitted[3])
+
+				if err != nil && err2 != nil && err3 != nil {
+					return []byte("some problems here")
+				}
+
+				result = g.numericRandomizer(length, gt, lt)
+
+			case "textualToken":
+				result = g.GenericGenerator(strings.Join(splitted[1:], "_"))
+
+			default:
+				result = string(s)
 		}
 
-		result = g.parser(randomFormat, randomItems)
+		return []byte(result)
+	})
 
-	default:
-		result = getRandom(slice)
-	}
-
-	return result
+	return string(src)
 }

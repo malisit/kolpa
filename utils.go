@@ -10,6 +10,8 @@ import (
 	"regexp"
 	"strings"
 	"time"
+	"strconv"
+	"bytes"
 )
 
 // Parses and replaces tags in a text with provided values in the map m.
@@ -227,27 +229,31 @@ func (g *Generator) isParseable(sl []string) bool {
 
 // Returns if given file contains content that needs to be replaced with numeric values.
 func (g *Generator) isNumeric(sl []string) bool {
-	return strings.Contains(sl[0], "#")
-}
-
-// Returns a data lines type. Type can be "numeric", "parseable" and "normal".
-func (g *Generator) lineType(sl []string) string {
-	if g.isNumeric(sl) {
-		return "numeric"
-	} else if g.isParseable(sl) {
-		return "parseable"
-	} else {
-		return "normal"
+	if len(sl) == 0 {
+		return false
 	}
+
+	re := regexp.MustCompile(`##(.*?)##`)
+
+	if match := re.FindString(sl[0]); len(match) > 0 {
+		return true
+	}
+
+	return false
 }
 
-// Replaces replaceable numeric data line with random numbers.
-// Sample input: #####-####
-// Sample output: 45125-4104
-func numericRandomizer(s string) string {
-	r, _ := regexp.Compile("#")
+// Generates an integer with given digit length and greater than and less than parameters
+func (g *Generator) numericRandomizer(length int, gt int, lt int) string {
+	var buffer bytes.Buffer
 
-	return r.ReplaceAllStringFunc(s, func(a string) string {
-		return fmt.Sprint(rand.Int31n(10))
-	})
+	for i := 0; i < length; i++ {
+		buffer.WriteString(strconv.Itoa(int(g.numBetween(gt, lt))))
+	}
+
+	return buffer.String()
+}
+
+// Generates a random integer between given greater than and less than parameters
+func (g *Generator) numBetween(gt int, lt  int) int32 {
+	return rand.Int31n(int32(lt)-int32(gt))+int32(gt)
 }
