@@ -56,7 +56,7 @@ func (g *Generator) MilitaryShipPrefix() string {
 	return g.GenericGenerator("address_military_ship_prefix")
 }
 
-// MilitaryShipPrefix function returns a random military state abbreviation.
+// MilitaryStateAbbr function returns a random military state abbreviation.
 // A convenience function, same as g.GenericGenerator("address_military_state_abbr").
 // Sample Output: AE
 func (g *Generator) MilitaryStateAbbr() string {
