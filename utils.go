@@ -242,18 +242,34 @@ func (g *Generator) isNumeric(sl []string) bool {
 	return false
 }
 
-// Generates an integer with given digit length and greater than and less than parameters
-func (g *Generator) numericRandomizer(length int, gt int, lt int) string {
+// Generates an integer with given digit length and greater than or equal and less than parameters
+func (g *Generator) numericRandomizer(args []string) string {
+	length, err := strconv.Atoi(args[0])
+	gte, err2 := strconv.Atoi(args[1])
+	lt, err3 := strconv.Atoi(args[2])
+
+	if err != nil && err2 != nil && err3 != nil {
+		return "something is wrong with arguments of numeric randomizer function"
+	}
+
 	var buffer bytes.Buffer
 
 	for i := 0; i < length; i++ {
-		buffer.WriteString(strconv.Itoa(int(g.numBetween(gt, lt))))
+		buffer.WriteString(strconv.Itoa(int(g.numBetween(gte, lt))))
 	}
 
 	return buffer.String()
 }
 
-// Generates a random integer between given greater than and less than parameters
-func (g *Generator) numBetween(gt int, lt  int) int32 {
-	return rand.Int31n(int32(lt)-int32(gt))+int32(gt)
+// Generates a random integer between given greater than or equal and less than parameters
+func (g *Generator) numBetween(gte int, lt  int) int32 {
+	return rand.Int31n(int32(lt)-int32(gte))+int32(gte)
+}
+
+func (g *Generator) typeOfToken(token string) string {
+	if token[0] == '%' && token[len(token)-1] == '%' {
+		return "func"
+	}
+
+	return "default"
 }

@@ -14,7 +14,7 @@ import (
 	"fmt"
 	"strings"
 	"regexp"
-	"strconv"
+	// "strconv"
 )
 
 // Generator struct to access various generator functions
@@ -73,20 +73,16 @@ func (g *Generator) GenericGenerator(intended string) string {
 	search := regexp.MustCompile(`{{(.*?)}}`)
 
 	src = search.ReplaceAllFunc(src, func(s []byte) []byte {
-		splitted := strings.Split(string(s)[2:len(s)-2],"_")
-		typeOfToken := splitted[0]
+		splitted := string(s)[2:len(s)-2]
+		typeOfToken := g.typeOfToken(splitted)
 		if g.isParseable(line) {
 			switch typeOfToken {
-				case "numericToken":
-					length, err := strconv.Atoi(splitted[1])
-					gt, err2 := strconv.Atoi(splitted[2])
-					lt, err3 := strconv.Atoi(splitted[3])
+				case "func":
+					funcLine := strings.Split(splitted[1:len(splitted)-1], " ")
+					funcName := funcLine[0]
+					funcArgs := funcLine[1:]
 
-					if err != nil && err2 != nil && err3 != nil {
-						return []byte("some problems here")
-					}
-
-					result = g.numericRandomizer(length, gt, lt)
+					result = funcMap[funcName](g, funcArgs)
 
 				default:
 					result = g.GenericGenerator(string(s[2:len(s)-2]))
