@@ -266,10 +266,17 @@ func (g *Generator) numBetween(gte int, lt  int) int32 {
 	return rand.Int31n(int32(lt)-int32(gte))+int32(gte)
 }
 
+// Determines the type of given token. It should be whether func or default.
 func (g *Generator) typeOfToken(token string) string {
 	if token[0] == '%' && token[len(token)-1] == '%' {
 		return "func"
 	}
 
 	return "default"
+}
+
+// Calls DateTimeAfterWithString function and returns its Stringer method.
+// This function is specifically written for in format function calls.
+func (g *Generator) userAgentDateAfter (args []string) string {
+	return g.DateFormatter("2006-01-02 15:04:05", g.DateTimeAfterWithString(args[0]).String())
 }

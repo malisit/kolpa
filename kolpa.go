@@ -22,6 +22,9 @@ type Generator struct {
 	Locale string
 }
 
+// Debugging purposes
+var Print = fmt.Println
+
 // C is the creator function, initiates kolpa with or without locale
 // setting. The default locale setting is "en_US".
 // Returns a generator type that will be used to call generator methods.
