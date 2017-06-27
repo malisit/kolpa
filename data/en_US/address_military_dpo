@@ -1,1 +1,1 @@
-Unit {{numericToken_1_1_10}}{{numericToken_3_0_10}} Box {{numericToken_1_1_10}}{{numericToken_3_0_10}}
+Unit {{%numericRandomizer 1 1 10%}}{{%numericRandomizer 3 0 10%}} Box {{%numericRandomizer 1 1 10%}}{{%numericRandomizer 3 0 10%}}

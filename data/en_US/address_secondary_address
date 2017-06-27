@@ -1,2 +1,2 @@
-Apt. {{numericToken_1_1_10}}{{numericToken_2_0_10}}
-Suite {{numericToken_1_1_10}}{{numericToken_2_0_10}}
+Apt. {{%numericRandomizer 1 1 10%}}{{%numericRandomizer 2 0 10%}}
+Suite {{%numericRandomizer 1 1 10%}}{{%numericRandomizer 2 0 10%}}
