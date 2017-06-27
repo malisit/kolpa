@@ -1,0 +1,3 @@
+({{user_agent_linux_platform_token}}) AppleWebKit/{{%numericRandomizer 1 531 537%}}{{%numericRandomizer 1 0 3%}} (KHTML, like Gecko) Chrome/{{%numericRandomizer 1 13 16%}}.0.{{%numericRandomizer 1 800 900%}}.0 Safari/{{same 1}}{{same 2}}
+({{user_agent_windows_platform_token}}) AppleWebKit/{{%numericRandomizer 1 531 537%}}{{%numericRandomizer 1 0 3%}} (KHTML, like Gecko) Chrome/{{%numericRandomizer 1 13 16%}}.0.{{%numericRandomizer 1 800 900%}}.0 Safari/{{same 1}}{{same 2}}
+({{user_agent_mac_platform_token}}) AppleWebKit/{{%numericRandomizer 1 531 537%}}{{%numericRandomizer 1 0 3%}} (KHTML, like Gecko) Chrome/{{%numericRandomizer 1 13 16%}}.0.{{%numericRandomizer 1 800 900%}}.0 Safari/{{same 1}}{{same 2}}

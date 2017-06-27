@@ -1,0 +1,9 @@
+({{user_agent_windows_platform_token}}; {{locale}}; rv:1.9.{{%numericRandomizer 1 0 3%}}.20) Gecko/{{%userAgentDateAfter 2011-01-01T00:00:00.000Z%}}  Firefox/{{%numericRandomizer 1 4 16%}}.0
+({{user_agent_windows_platform_token}}; {{locale}}; rv:1.9.{{%numericRandomizer 1 0 3%}}.20) Gecko/{{%userAgentDateAfter 2010-01-01T00:00:00.000Z%}}  Firefox/3.6.{{%numericRandomizer 1 1 21%}}.0
+({{user_agent_windows_platform_token}}; {{locale}}; rv:1.9.{{%numericRandomizer 1 0 3%}}.20) Gecko/{{%userAgentDateAfter 2010-01-01T00:00:00.000Z%}}  Firefox/3.8
+({{user_agent_linux_platform_token}}; rv:1.9.{{%numericRandomizer 1 5 8%}}.20) Gecko/{{%userAgentDateAfter 2011-01-01T00:00:00.000Z%}}  Firefox/{{%numericRandomizer 1 4 16%}}.0
+({{user_agent_linux_platform_token}}; rv:1.9.{{%numericRandomizer 1 5 8%}}.20) Gecko/{{%userAgentDateAfter 2010-01-01T00:00:00.000Z%}}  Firefox/3.6.{{%numericRandomizer 1 1 21%}}.0
+({{user_agent_linux_platform_token}}; rv:1.9.{{%numericRandomizer 1 5 8%}}.20) Gecko/{{%userAgentDateAfter 2010-01-01T00:00:00.000Z%}}  Firefox/3.8
+({{user_agent_mac_platform_token}}; rv:1.9.{{%numericRandomizer 1 2 7%}}.20) Gecko/{{%userAgentDateAfter 2011-01-01T00:00:00.000Z%}}  Firefox/{{%numericRandomizer 1 4 16%}}.0
+({{user_agent_mac_platform_token}}; rv:1.9.{{%numericRandomizer 1 2 7%}}.20) Gecko/{{%userAgentDateAfter 2010-01-01T00:00:00.000Z%}}  Firefox/3.6.{{%numericRandomizer 1 1 21%}}.0
+({{user_agent_mac_platform_token}}; rv:1.9.{{%numericRandomizer 1 2 7%}}.20) Gecko/{{%userAgentDateAfter 2010-01-01T00:00:00.000Z%}}  Firefox/3.8

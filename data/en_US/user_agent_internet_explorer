@@ -1,0 +1,1 @@
+Mozilla/5.0 (compatible; MSIE {{%numericRandomizer 1 5 10%}}.0; {{user_agent_windows_platform_token}}; Trident/{{%numericRandomizer 1 3 6%}}.{{%numericRandomizer 1 0 2%}})

@@ -26,6 +26,21 @@ func (g *Generator) parser(text string, m map[string]string) string {
 	return string(src)
 }
 
+// Parses and replaces tags in a text with provided values in the map m.
+func (g *Generator) nparser(text string, m map[int]string) string {
+	src := []byte(text)
+	search := regexp.MustCompile(`{{(.*?)}}`)
+
+	c := 0
+	src = search.ReplaceAllFunc(src, func(s []byte) []byte {
+		res := []byte(m[c])
+		c++
+		return res
+	})
+
+	return string(src)
+}
+
 // Concatenates multiple string slices by using append function and returns new slice.
 func appendMultiple(slices ...[]string) []string {
 	base := slices[0]
@@ -270,6 +285,8 @@ func (g *Generator) numBetween(gte int, lt  int) int32 {
 func (g *Generator) typeOfToken(token string) string {
 	if token[0] == '%' && token[len(token)-1] == '%' {
 		return "func"
+	} else if token[0:4] == "same" {
+		return "same"
 	}
 
 	return "default"
@@ -278,5 +295,5 @@ func (g *Generator) typeOfToken(token string) string {
 // Calls DateTimeAfterWithString function and returns its Stringer method.
 // This function is specifically written for in format function calls.
 func (g *Generator) userAgentDateAfter (args []string) string {
-	return g.DateFormatter("2006-01-02 15:04:05", g.DateTimeAfterWithString(args[0]).String())
+	return g.DateFormatter("2006-01-02 15:04:05", g.DateTimeAfterWithString(args[0]).UTC().String())
 }

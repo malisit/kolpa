@@ -1,0 +1,2 @@
+Opera/{{%numericRandomizer 1 8 10%}}.{{%numericRandomizer 1 10 100%}}.({{user_agent_windows_platform_token}}; {{locale}}) Presto/2.9.{{%numericRandomizer 1 160 191%}} Version/{{%numericRandomizer 1 10 13%}}.00
+Opera/{{%numericRandomizer 1 8 10%}}.{{%numericRandomizer 1 10 100%}}.({{user_agent_linux_platform_token}}; {{locale}}) Presto/2.9.{{%numericRandomizer 1 160 191%}} Version/{{%numericRandomizer 1 10 13%}}.00

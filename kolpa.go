@@ -14,7 +14,7 @@ import (
 	"fmt"
 	"strings"
 	"regexp"
-	// "strconv"
+	"strconv"
 )
 
 // Generator struct to access various generator functions
@@ -46,6 +46,8 @@ func (g *Generator) SetLanguage(localeVar string) {
 	g.Locale = localeVar
 }
 
+
+
 // GenericGenerator is the generic function that powers all generations within kolpa.
 // Recursively generates data for intended data type.
 // Intended variable should be slug version of a valid data type.
@@ -72,11 +74,14 @@ func (g *Generator) GenericGenerator(intended string) string {
 
 	line := getRandom(slice)
 
-	src := []byte(line)
 	search := regexp.MustCompile(`{{(.*?)}}`)
 
-	src = search.ReplaceAllFunc(src, func(s []byte) []byte {
-		splitted := string(s)[2:len(s)-2]
+	src := search.FindAllString(line, -1)
+
+	m := map[int]string{}
+
+	for c, s := range src {
+		splitted := s[2:len(s)-2]
 		typeOfToken := g.typeOfToken(splitted)
 		if g.isParseable(line) {
 			switch typeOfToken {
@@ -87,14 +92,24 @@ func (g *Generator) GenericGenerator(intended string) string {
 
 					result = funcMap[funcName](g, funcArgs)
 
+				case "same":
+					sameLine := strings.Split(splitted, " ")
+					whichTokenInt, err := strconv.Atoi(sameLine[1])
+
+					if err != nil {
+						panic(err)
+					}
+
+					result = m[whichTokenInt]
 				default:
 					result = g.GenericGenerator(string(s[2:len(s)-2]))
 			}
 		}
+		
+		m[c] = result
+	}
 
-		return []byte(result)
+	r := g.nparser(line, m)
 
-	})
-
-	return string(src)
+	return r
 }
