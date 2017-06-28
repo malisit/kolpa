@@ -12,9 +12,9 @@ package kolpa
 
 import (
 	"fmt"
-	"strings"
 	"regexp"
 	"strconv"
+	"strings"
 )
 
 // Generator struct to access various generator functions
@@ -45,8 +45,6 @@ func C(localeVar ...string) Generator {
 func (g *Generator) SetLanguage(localeVar string) {
 	g.Locale = localeVar
 }
-
-
 
 // GenericGenerator is the generic function that powers all generations within kolpa.
 // Recursively generates data for intended data type.
@@ -81,31 +79,31 @@ func (g *Generator) GenericGenerator(intended string) string {
 	m := map[int]string{}
 
 	for c, s := range src {
-		splitted := s[2:len(s)-2]
+		splitted := s[2 : len(s)-2]
 		typeOfToken := g.typeOfToken(splitted)
 		if g.isParseable(line) {
 			switch typeOfToken {
-				case "func":
-					funcLine := strings.Split(splitted[1:len(splitted)-1], " ")
-					funcName := funcLine[0]
-					funcArgs := funcLine[1:]
+			case "func":
+				funcLine := strings.Split(splitted[1:len(splitted)-1], " ")
+				funcName := funcLine[0]
+				funcArgs := funcLine[1:]
 
-					result = funcMap[funcName](g, funcArgs)
+				result = funcMap[funcName](g, funcArgs)
 
-				case "same":
-					sameLine := strings.Split(splitted, " ")
-					whichTokenInt, err := strconv.Atoi(sameLine[1])
+			case "same":
+				sameLine := strings.Split(splitted, " ")
+				whichTokenInt, err := strconv.Atoi(sameLine[1])
 
-					if err != nil {
-						panic(err)
-					}
+				if err != nil {
+					panic(err)
+				}
 
-					result = m[whichTokenInt]
-				default:
-					result = g.GenericGenerator(string(s[2:len(s)-2]))
+				result = m[whichTokenInt]
+			default:
+				result = g.GenericGenerator(string(s[2 : len(s)-2]))
 			}
 		}
-		
+
 		m[c] = result
 	}
 

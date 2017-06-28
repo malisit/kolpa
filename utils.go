@@ -2,16 +2,16 @@ package kolpa
 
 import (
 	"bufio"
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"math/rand"
 	"os"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
-	"strconv"
-	"bytes"
 )
 
 // Parses and replaces tags in a text with provided values in the map m.
@@ -110,8 +110,8 @@ func (g *Generator) fileToSlice(fName string) ([]string, error) {
 	}
 
 	if err := scanner.Err(); err != nil {
-		fmt.Println(err)
-		return nil, err
+		//log.Println("Inteded generation is not valid for selected language. Switching to en_US.")
+		return g.fileToSlice(fName)
 	}
 
 	return res, nil
@@ -163,7 +163,7 @@ func (g *Generator) fileToSliceAll(fName string) ([]string, error) {
 	}
 
 	if len(res) == 0 {
-		return nil, fmt.Errorf("asd")
+		return nil, fmt.Errorf("Length is zero.")
 	}
 
 	return res, nil
@@ -277,8 +277,8 @@ func (g *Generator) numericRandomizer(args []string) string {
 }
 
 // Generates a random integer between given greater than or equal and less than parameters
-func (g *Generator) numBetween(gte int, lt  int) int32 {
-	return rand.Int31n(int32(lt)-int32(gte))+int32(gte)
+func (g *Generator) numBetween(gte int, lt int) int32 {
+	return rand.Int31n(int32(lt)-int32(gte)) + int32(gte)
 }
 
 // Determines the type of given token. It should be whether func or default.
@@ -294,6 +294,6 @@ func (g *Generator) typeOfToken(token string) string {
 
 // Calls DateTimeAfterWithString function and returns its Stringer method.
 // This function is specifically written for in format function calls.
-func (g *Generator) userAgentDateAfter (args []string) string {
+func (g *Generator) userAgentDateAfter(args []string) string {
 	return g.DateFormatter("2006-01-02 15:04:05", g.DateTimeAfterWithString(args[0]).UTC().String())
 }

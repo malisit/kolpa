@@ -1,11 +1,11 @@
 package kolpa
 
 import (
-	"time"
 	"math/rand"
+	"time"
 )
 
-// DateTimeBetween returns a time.Time typed variable which is a pseudo-random 
+// DateTimeBetween returns a time.Time typed variable which is a pseudo-random
 // datetime that points to a date and time pair between given datetime interval.
 func (g *Generator) DateTimeBetween(afterObj time.Time, beforeObj time.Time) time.Time {
 	afterUnix := afterObj.Unix()
@@ -40,7 +40,7 @@ func (g *Generator) DateTimeAfter(afterObj time.Time) time.Time {
 // DateTimeAfterWithString is same with DateTimeAfter but takes datetime parameter as string with time.RFC3339 builtin format.
 func (g *Generator) DateTimeAfterWithString(after string) time.Time {
 	afterObj, err := time.Parse(time.RFC3339, after)
-	
+
 	if err != nil {
 		return time.Time{}
 	}
