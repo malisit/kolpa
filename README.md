@@ -17,7 +17,7 @@ package main
 import (
 	"fmt"
 	"github.com/malisit/kolpa"
-    "time"
+	"time"
 )
 
 func main() {
