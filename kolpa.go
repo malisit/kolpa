@@ -67,7 +67,7 @@ func (g *Generator) GenericGenerator(intended string) string {
 	}
 
 	if err != nil {
-		return fmt.Sprint("Warning: There is no file for", g.Locale, " and ", intended, " to generate.")
+		return fmt.Sprint("Warning: There is no file for ", g.Locale, " and ", intended, " to generate.")
 	}
 
 	line := getRandom(slice)
