@@ -12,6 +12,7 @@ package kolpa
 
 import (
 	"fmt"
+	"reflect"
 	"regexp"
 	"strconv"
 	"strings"
@@ -20,6 +21,7 @@ import (
 // Generator struct to access various generator functions
 type Generator struct {
 	Locale string
+	Pkg    string
 }
 
 // Debugging purposes
@@ -36,7 +38,7 @@ func C(localeVar ...string) Generator {
 		newGenerator.Locale = "en_US"
 	}
 	// newGenerator.populateFunctions()
-
+	newGenerator.Pkg = reflect.TypeOf(newGenerator).PkgPath()
 	return newGenerator
 }
 
@@ -67,7 +69,7 @@ func (g *Generator) GenericGenerator(intended string) string {
 	}
 
 	if err != nil {
-		return fmt.Sprint("Warning: There is no file for", g.Locale, " and ", intended, " to generate.")
+		return fmt.Sprint("Warning: There is no file for ", g.Locale, " and ", intended, " to generate.")
 	}
 
 	line := getRandom(slice)
