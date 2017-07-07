@@ -8,6 +8,7 @@ import (
 	"log"
 	"math/rand"
 	"os"
+	"reflect"
 	"regexp"
 	"strconv"
 	"strings"
@@ -96,7 +97,7 @@ func (g *Generator) formatToSlice(format string) []string {
 // Reads the file "fName" and returns its content as a slice of strings.
 func (g *Generator) fileToSlice(fName string) ([]string, error) {
 	var res []string
-	path := os.Getenv("GOPATH") + "/src/github.com/malisit/kolpa/data/" + g.Locale + "/" + fName
+	path := os.Getenv("GOPATH") + "/src/" + g.Pkg + "/data/" + g.Locale + "/" + fName
 	file, err := os.Open(path)
 
 	if err != nil {
@@ -123,7 +124,7 @@ func (g *Generator) fileToSliceAll(fName string) ([]string, error) {
 	var err error
 	var file *os.File
 
-	path := os.Getenv("GOPATH") + "/src/github.com/malisit/kolpa/data/" + g.Locale + "/"
+	path := os.Getenv("GOPATH") + "/src/" + g.Pkg + "/data/" + g.Locale + "/"
 
 	f, err := os.Open(path)
 
@@ -172,7 +173,7 @@ func (g *Generator) fileToSliceAll(fName string) ([]string, error) {
 // Reads the tab separated file 'fName' and returns its content as a map of strings to strings.
 func (g *Generator) fileToMap(fName string) map[string]string {
 	m := make(map[string]string)
-	path := os.Getenv("GOPATH") + "/src/github.com/malisit/kolpa/data/" + g.Locale + "/" + fName
+	path := os.Getenv("GOPATH") + "/src/" + g.Pkg + "/data/" + g.Locale + "/" + fName
 	file, err := os.Open(path)
 
 	if err != nil {
@@ -212,7 +213,7 @@ func randBool() bool {
 
 // Returns all possible data for languages.
 func getLanguages() []string {
-	path := os.Getenv("GOPATH") + "/src/github.com/malisit/kolpa/data/"
+	path := os.Getenv("GOPATH") + "/src/" + reflect.TypeOf(Generator{}).PkgPath() + "/data/"
 	files, _ := ioutil.ReadDir(path)
 	var n string
 	var res []string
