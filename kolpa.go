@@ -20,7 +20,7 @@ import (
 
 // Generator struct to access various generator functions
 type Generator struct {
-	Locale string
+	Locale_ string
 	Pkg    string
 }
 
@@ -33,9 +33,9 @@ var Print = fmt.Println
 func C(localeVar ...string) Generator {
 	newGenerator := Generator{}
 	if len(localeVar) > 0 {
-		newGenerator.Locale = localeVar[0]
+		newGenerator.Locale_ = localeVar[0]
 	} else {
-		newGenerator.Locale = "en_US"
+		newGenerator.Locale_ = "en_US"
 	}
 	// newGenerator.populateFunctions()
 	newGenerator.Pkg = reflect.TypeOf(newGenerator).PkgPath()
@@ -45,7 +45,7 @@ func C(localeVar ...string) Generator {
 // SetLanguage is the language setter function. Language setting change be changed
 // anytime by using this function.
 func (g *Generator) SetLanguage(localeVar string) {
-	g.Locale = localeVar
+	g.Locale_ = localeVar
 }
 
 // GenericGenerator is the generic function that powers all generations within kolpa.
@@ -69,7 +69,7 @@ func (g *Generator) GenericGenerator(intended string) string {
 	}
 
 	if err != nil {
-		return fmt.Sprint("Warning: There is no file for ", g.Locale, " and ", intended, " to generate.")
+		return fmt.Sprint("Warning: There is no file for ", g.Locale_, " and ", intended, " to generate.")
 	}
 
 	line := getRandom(slice)

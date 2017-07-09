@@ -97,7 +97,7 @@ func (g *Generator) formatToSlice(format string) []string {
 // Reads the file "fName" and returns its content as a slice of strings.
 func (g *Generator) fileToSlice(fName string) ([]string, error) {
 	var res []string
-	path := os.Getenv("GOPATH") + "/src/" + g.Pkg + "/data/" + g.Locale + "/" + fName
+	path := os.Getenv("GOPATH") + "/src/" + g.Pkg + "/data/" + g.Locale_ + "/" + fName
 	file, err := os.Open(path)
 
 	if err != nil {
@@ -112,7 +112,7 @@ func (g *Generator) fileToSlice(fName string) ([]string, error) {
 
 	if err := scanner.Err(); err != nil {
 		//log.Println("Inteded generation is not valid for selected language. Switching to en_US.")
-		return g.fileToSlice(fName)
+		return []string{}, err
 	}
 
 	return res, nil
@@ -124,7 +124,7 @@ func (g *Generator) fileToSliceAll(fName string) ([]string, error) {
 	var err error
 	var file *os.File
 
-	path := os.Getenv("GOPATH") + "/src/" + g.Pkg + "/data/" + g.Locale + "/"
+	path := os.Getenv("GOPATH") + "/src/" + g.Pkg + "/data/" + g.Locale_ + "/"
 
 	f, err := os.Open(path)
 
@@ -173,7 +173,7 @@ func (g *Generator) fileToSliceAll(fName string) ([]string, error) {
 // Reads the tab separated file 'fName' and returns its content as a map of strings to strings.
 func (g *Generator) fileToMap(fName string) map[string]string {
 	m := make(map[string]string)
-	path := os.Getenv("GOPATH") + "/src/" + g.Pkg + "/data/" + g.Locale + "/" + fName
+	path := os.Getenv("GOPATH") + "/src/" + g.Pkg + "/data/" + g.Locale_ + "/" + fName
 	file, err := os.Open(path)
 
 	if err != nil {
