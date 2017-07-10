@@ -12,7 +12,6 @@ package kolpa
 
 import (
 	"fmt"
-	"log"
 	"reflect"
 	"regexp"
 	"strconv"
@@ -70,8 +69,8 @@ func (g *Generator) GenericGenerator(intended string) string {
 	}
 
 	if err != nil {
-		log.Println(err)
-		return ""
+		//log.Println(err)
+		return fmt.Sprint(err)
 	}
 
 	line := getRandom(slice)
