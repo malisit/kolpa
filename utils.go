@@ -111,8 +111,9 @@ func (g *Generator) fileToSlice(fName string) ([]string, error) {
 	}
 
 	if err := scanner.Err(); err != nil {
-		//log.Println("Inteded generation is not valid for selected language. Switching to en_US.")
-		return []string{}, err
+		log.Println("Inteded generation is not valid for selected language. Switching to en_US.")
+		g.Locale_ = "en_US"
+		return g.fileToSlice(fName)
 	}
 
 	return res, nil

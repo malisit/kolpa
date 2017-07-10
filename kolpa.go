@@ -12,6 +12,7 @@ package kolpa
 
 import (
 	"fmt"
+	"log"
 	"reflect"
 	"regexp"
 	"strconv"
@@ -21,7 +22,7 @@ import (
 // Generator struct to access various generator functions
 type Generator struct {
 	Locale_ string
-	Pkg    string
+	Pkg     string
 }
 
 // Debugging purposes
@@ -69,7 +70,8 @@ func (g *Generator) GenericGenerator(intended string) string {
 	}
 
 	if err != nil {
-		return fmt.Sprint("Warning: There is no file for ", g.Locale_, " and ", intended, " to generate.")
+		log.Println(err)
+		return ""
 	}
 
 	line := getRandom(slice)
