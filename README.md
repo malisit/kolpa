@@ -3,7 +3,7 @@
 It's capable of generating fake data for following instances for now,
 - Name
 - Address
-- Phone number
+- Phone Number
 - Email Address
 - Color
 - Datetime
