@@ -94,12 +94,7 @@ func (g *Generator) GenericGenerator(intended string) string {
 				result = funcMap[funcName](g, funcArgs)
 
 			case "same":
-				sameLine := strings.Split(splitted, " ")
-				whichTokenInt, err := strconv.Atoi(sameLine[1])
-
-				if err != nil {
-					panic(err)
-				}
+				whichTokenInt := parseSame(splitted)
 
 				result = m[whichTokenInt]
 			default:
@@ -113,4 +108,15 @@ func (g *Generator) GenericGenerator(intended string) string {
 	r := g.nparser(line, m)
 
 	return r
+}
+
+func parseSame(splitted string) int {
+	sameLine := strings.Split(splitted, " ")
+	whichTokenInt, err := strconv.Atoi(sameLine[1])
+
+	if err != nil {
+		panic(err)
+	}
+
+	return whichTokenInt
 }

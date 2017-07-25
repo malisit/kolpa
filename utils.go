@@ -79,7 +79,7 @@ func (g *Generator) appendMultipleWithSlice(slices []string) ([]string, error) {
 }
 
 // Takes format and outputs the needed variables for the format
-// Sample input: `{{prefix_female}} {{female_fist_name}}`
+// Sample input: `{{prefix_female}} {{female_first_name}}`
 // Sample output: [ prefix_female female_first_name ]
 func (g *Generator) formatToSlice(format string) []string {
 	re := regexp.MustCompile(`{{(.*?)}}`)
@@ -185,7 +185,8 @@ func (g *Generator) fileToMap(fName string) map[string]string {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := strings.Split(scanner.Text(), "\t")
-		m[line[0]] = line[1]
+
+		mapLine(line, m)
 	}
 
 	if err := scanner.Err(); err != nil {
@@ -205,11 +206,8 @@ func getRandom(options []string) string {
 func randBool() bool {
 	rand.Seed(time.Now().UTC().UnixNano())
 	val := rand.Float64()
-	if val <= 0.5 {
-		return true
-	}
 
-	return false
+	return parseRandomToBoolean(val)
 }
 
 // Returns all possible data for languages.
@@ -298,4 +296,18 @@ func (g *Generator) typeOfToken(token string) string {
 // This function is specifically written for in format function calls.
 func (g *Generator) userAgentDateAfter(args []string) string {
 	return g.DateFormatter("2006-01-02 15:04:05", g.DateTimeAfterWithString(args[0]).UTC().String())
+}
+
+func mapLine(line []string, data map[string]string) {
+	if len(line) > 1 {
+		data[line[0]] = line[1]
+	}
+}
+
+func parseRandomToBoolean(val float64) bool {
+	if val <= 0.5 {
+		return true
+	}
+
+	return false
 }
