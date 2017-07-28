@@ -6,7 +6,7 @@ It's capable of generating fake data for following instances for now,
 - Phone Number
 - Email Address
 - Gender
-- Person (containes First Name, Last Name, Address, Phone Number, Email and Gender fields)
+- Person (contains First Name, Last Name, Address, Phone Number, Email and Gender fields)
 - Color
 - Datetime
 - User Agent
