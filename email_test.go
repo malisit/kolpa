@@ -11,8 +11,7 @@ func TestEmail(t *testing.T) {
 		k.SetLanguage(lang)
 
 		email := k.Email()
-		typeOfOutput := reflect.TypeOf(email).Kind()
-		if typeOfOutput != reflect.String {
+		if reflect.TypeOf(email).Kind() != reflect.String {
 			t.Errorf("Email generation is failed for %s.", lang)
 		}
 	}
