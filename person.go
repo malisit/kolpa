@@ -1,14 +1,5 @@
 package kolpa
 
-type person struct {
-	firstName string
-	lastName  string
-	gender    string
-	email     string
-	address   string
-	phone     string
-}
-
 // Name function returns a random full person name.
 // A convenience function, same as g.GenericGenerator("person_format").
 // Sample Output: John Doe
@@ -118,36 +109,6 @@ func (g *Generator) SuffixFemale() string {
 // Sample Output: "male"
 func (g *Generator) Gender() string {
 	return generateGender(randBool())
-}
-
-// Person function returns a random person struct with fields:
-// First name, Second name, Gender, Email, Address, Phone number
-// Sample Output: {Richard Lawrence male Martin.Trevino@fakemail.com Unit 3081 Box 2113, DPO AE 51266 +1-550-714-485}
-func (g *Generator) Person() person {
-	return generatePerson(g.Gender(), g)
-}
-
-// based on input parameter returns a male person or female person
-func generatePerson(gender string, g *Generator) person {
-	if gender == "male" {
-		return person{
-			firstName: g.FirstNameMale(),
-			lastName:  g.LastNameMale(),
-			gender:    gender,
-			email:     g.MaleEmail(),
-			address:   g.Address(),
-			phone:     g.Phone(),
-		}
-	}
-
-	return person{
-		firstName: g.FirstNameFemale(),
-		lastName:  g.LastNameFemale(),
-		gender:    gender,
-		email:     g.FemaleEmail(),
-		address:   g.Address(),
-		phone:     g.Phone(),
-	}
 }
 
 // based on input parameter returns a gender

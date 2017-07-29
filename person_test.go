@@ -105,11 +105,6 @@ func TestPerson(t *testing.T) {
 		if typeOfOutput != reflect.String {
 			t.Errorf("Gender generation is failed for %s.", lang)
 		}
-
-		person := k.Person()
-		if reflect.TypeOf(person).Kind() != reflect.Struct {
-			t.Errorf("Person function is failed for %s.", lang)
-		}
 	}
 
 	gender := generateGender(true)
@@ -120,15 +115,5 @@ func TestPerson(t *testing.T) {
 	gender = generateGender(false)
 	if gender != "female" {
 		t.Errorf("generateGender function is failed.")
-	}
-
-	male := generatePerson("male", &k)
-	if male.gender != "male" {
-		t.Errorf("generatePerson function is failed.")
-	}
-
-	female := generatePerson("female", &k)
-	if female.gender != "female" {
-		t.Errorf("generatePerson function is failed.")
 	}
 }
