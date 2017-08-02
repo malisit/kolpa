@@ -104,3 +104,18 @@ func (g *Generator) SuffixMale() string {
 func (g *Generator) SuffixFemale() string {
 	return g.GenericGenerator("person_suffix_female")
 }
+
+// Gender function returns a random person gender.
+// Sample Output: "male"
+func (g *Generator) Gender() string {
+	return generateGender(randBool())
+}
+
+// based on input parameter returns a gender
+func generateGender(randomValue bool) string {
+	if randomValue {
+		return "male"
+	}
+
+	return "female"
+}
