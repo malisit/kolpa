@@ -5,6 +5,7 @@ It's capable of generating fake data for following instances for now,
 - Address
 - Phone Number
 - Email Address
+- Gender
 - Color
 - Datetime
 - User Agent
@@ -32,6 +33,7 @@ func main() {
 	fmt.Println(k.DateTimeAfter(time.Date(2015, 1, 0, 0, 0, 0, 0, time.UTC))) // Prints 2015-09-08 15:34:29 +0300 EEST
 	fmt.Println(k.Email()) // Prints Jay.Hayden@fakemail.com
 	fmt.Println(k.Phone()) // Prints +55-44-63311072
+	fmt.Println(k.Gender()) // Prints male
 
 }
 ```
