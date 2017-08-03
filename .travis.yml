@@ -8,7 +8,7 @@ matrix:
     - go: master
   fast_finish: true
 install:
-  - # Do nothing.
+  - # Do nothing. In order to run go get -t -v ./... in script section
 script:
   - go get -t -v ./...
   - go test -v
