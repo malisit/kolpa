@@ -1,6 +1,15 @@
+sudo: false
 language: go
-
 go:
-  - 1.8.3
-
-script: go test
+  - 1.8.x
+  - master
+matrix:
+  allow_failures:
+    - go: master
+  fast_finish: true
+install:
+  - # Do nothing.
+script:
+  - go get -t -v ./...
+  - go test -v
+dist: trusty
