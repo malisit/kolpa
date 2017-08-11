@@ -1,0 +1,4 @@
+5{{%numericRandomizer 15 1 6%}}
+5{{%numericRandomizer 1 1 6%}}{{%numericRandomizer 14 0 10%}}
+2{{%numericRandomizer 1 2 8%}}20{{%numericRandomizer 14 0 10%}}
+2{{%numericRandomizer 1 2 8%}}21{{%numericRandomizer 14 0 10%}}
