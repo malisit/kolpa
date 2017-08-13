@@ -35,7 +35,7 @@ func main() {
 	fmt.Println(k.Email()) // Prints Jay.Hayden@fakemail.com
 	fmt.Println(k.Phone()) // Prints +55-44-63311072
 	fmt.Println(k.Gender()) // Prints male
-	fmt.Println(k.PaymentCard) // Prints 4083453410931987
+	fmt.Println(k.PaymentCard()) // Prints 4083453410931987
 
 }
 ```
