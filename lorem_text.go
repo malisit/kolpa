@@ -1,8 +1,8 @@
 package kolpa
 
 import (
-	"strings"
 	"strconv"
+	"strings"
 )
 
 // PaymentCard function returns a random lorem word.
@@ -21,7 +21,7 @@ func (g *Generator) LoremSentence() string {
 	sLen, err := strconv.Atoi(sentenceLen)
 
 	if err == nil {
-		for i := 0; i < sLen ; i++  {
+		for i := 0; i < sLen; i++ {
 			if len(sentence) == 0 {
 				sentence = strings.Title(g.LoremWord())
 			}

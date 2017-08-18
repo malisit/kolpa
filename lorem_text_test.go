@@ -1,11 +1,11 @@
 package kolpa
 
 import (
-	"testing"
 	"reflect"
+	"testing"
 )
 
-func TestLoremText(t *testing.T)  {
+func TestLoremText(t *testing.T) {
 	k := C()
 	word := k.LoremWord()
 	typeOfOutput := reflect.TypeOf(word).Kind()
