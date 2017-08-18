@@ -7,6 +7,7 @@ It's capable of generating fake data for following instances for now,
 - Email Address
 - Gender
 - Payment Card
+- Lorem Ipsum Text
 - Color
 - Datetime
 - User Agent
@@ -36,6 +37,7 @@ func main() {
 	fmt.Println(k.Phone()) // Prints +55-44-63311072
 	fmt.Println(k.Gender()) // Prints male
 	fmt.Println(k.PaymentCard()) // Prints 4083453410931987
+	fmt.Println(k.LoremSentence()) // Prints "Provident nobis nostrum blanditiis voluptatem animi rerum harum."
 
 }
 ```
