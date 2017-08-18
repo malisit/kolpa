@@ -5,10 +5,15 @@ import (
 	"strconv"
 )
 
+// PaymentCard function returns a random lorem word.
+// A convenience function, same as g.GenericGenerator("lorem_word").
+// Sample Output: dolores
 func (g *Generator) LoremWord() string {
 	return g.GenericGenerator("lorem_word")
 }
 
+// PaymentCard function returns a random lorem sentence.
+// Sample Output: Provident nobis nostrum blanditiis voluptatem animi rerum harum.
 func (g *Generator) LoremSentence() string {
 	var sLen int
 	var sentence string
@@ -29,6 +34,9 @@ func (g *Generator) LoremSentence() string {
 	return sentence
 }
 
+// PaymentCard function returns a random lorem paragraph.
+// Sample Output: Quia et minima saepe aspernatur laboriosam non id eum. Nulla iste ea
+// necessitatibus molestiae omnis et est. Nisi cum commodi ex rerum aperiam earum in.
 func (g *Generator) LoremParagraph() string {
 	var pLen int
 	var paragraph string
