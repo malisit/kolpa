@@ -97,7 +97,7 @@ func (g *Generator) formatToSlice(format string) []string {
 // Reads the file "fName" and returns its content as a slice of strings.
 func (g *Generator) fileToSlice(fName string) ([]string, error) {
 	var res []string
-	path := os.Getenv("GOPATH") + "/src/" + g.Pkg + "/data/" + g.Locale_ + "/" + fName
+	path := "data/" + g.Locale_ + "/" + fName
 	file, err := os.Open(path)
 
 	if err != nil {
