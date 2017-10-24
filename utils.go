@@ -8,7 +8,6 @@ import (
 	"log"
 	"math/rand"
 	"os"
-	"reflect"
 	"regexp"
 	"strconv"
 	"strings"
@@ -125,7 +124,7 @@ func (g *Generator) fileToSliceAll(fName string) ([]string, error) {
 	var err error
 	var file *os.File
 
-	path := os.Getenv("GOPATH") + "/src/" + g.Pkg + "/data/" + g.Locale_ + "/"
+	path := "data/" + g.Locale_ + "/"
 
 	f, err := os.Open(path)
 
@@ -174,7 +173,7 @@ func (g *Generator) fileToSliceAll(fName string) ([]string, error) {
 // Reads the tab separated file 'fName' and returns its content as a map of strings to strings.
 func (g *Generator) fileToMap(fName string) map[string]string {
 	m := make(map[string]string)
-	path := os.Getenv("GOPATH") + "/src/" + g.Pkg + "/data/" + g.Locale_ + "/" + fName
+	path := "data/" + g.Locale_ + "/" + fName
 	file, err := os.Open(path)
 
 	if err != nil {
@@ -212,7 +211,7 @@ func randBool() bool {
 
 // Returns all possible data for languages.
 func getLanguages() []string {
-	path := os.Getenv("GOPATH") + "/src/" + reflect.TypeOf(Generator{}).PkgPath() + "/data/"
+	path := "data/"
 	files, _ := ioutil.ReadDir(path)
 	var n string
 	var res []string
