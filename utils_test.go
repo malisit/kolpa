@@ -80,19 +80,6 @@ func TestAppendMultipleWithSlice(t *testing.T) {
 	}
 }
 
-func TestFileToMap(t *testing.T) {
-	k := C()
-	var result = map[string]string{}
-
-	if reflect.TypeOf(result) != reflect.TypeOf(k.fileToMap("locale")) {
-		t.Errorf("FileToMap function failed")
-	}
-
-	if reflect.TypeOf(result) != reflect.TypeOf(k.fileToMap("wrongfilename")) {
-		t.Errorf("FileToMap function failed")
-	}
-}
-
 func TestMapLine(t *testing.T) {
 	var input = []string{"test", "anothertest"}
 	var m = map[string]string{}
