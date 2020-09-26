@@ -4,8 +4,8 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
+	"go/build"
 	"io/ioutil"
-	"log"
 	"math/rand"
 	"os"
 	"reflect"
@@ -97,9 +97,10 @@ func (g *Generator) formatToSlice(format string) []string {
 // Reads the file "fName" and returns its content as a slice of strings.
 func (g *Generator) fileToSlice(fName string) ([]string, error) {
 	var res []string
-	path := os.Getenv("GOPATH") + "/src/" + g.Pkg + "/data/" + g.Locale_ + "/" + fName
-	file, err := os.Open(path)
 
+	path := build.Default.GOPATH + "/src/" + g.Pkg + "/data/" + g.Locale_ + "/" + fName
+	file, err := os.Open(path)
+	
 	if err != nil {
 		return nil, err
 	}
@@ -107,6 +108,7 @@ func (g *Generator) fileToSlice(fName string) ([]string, error) {
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
+
 		res = append(res, scanner.Text())
 	}
 
@@ -125,7 +127,7 @@ func (g *Generator) fileToSliceAll(fName string) ([]string, error) {
 	var err error
 	var file *os.File
 
-	path := os.Getenv("GOPATH") + "/src/" + g.Pkg + "/data/" + g.Locale_ + "/"
+	path := build.Default.GOPATH + "/src/" + g.Pkg + "/data/" + g.Locale_ + "/"
 
 	f, err := os.Open(path)
 
@@ -148,7 +150,7 @@ func (g *Generator) fileToSliceAll(fName string) ([]string, error) {
 
 	for _, name := range fNames {
 		file, err = os.Open(path + name)
-
+		
 		if err != nil {
 			return nil, err
 		}
@@ -171,30 +173,6 @@ func (g *Generator) fileToSliceAll(fName string) ([]string, error) {
 	return res, nil
 }
 
-// Reads the tab separated file 'fName' and returns its content as a map of strings to strings.
-func (g *Generator) fileToMap(fName string) map[string]string {
-	m := make(map[string]string)
-	path := os.Getenv("GOPATH") + "/src/" + g.Pkg + "/data/" + g.Locale_ + "/" + fName
-	file, err := os.Open(path)
-
-	if err != nil {
-		return m
-	}
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := strings.Split(scanner.Text(), "\t")
-
-		mapLine(line, m)
-	}
-
-	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
-	}
-
-	return m
-}
 
 // Returns random item from the given string slice.
 func getRandom(options []string) string {

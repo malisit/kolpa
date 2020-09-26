@@ -69,7 +69,6 @@ func (g *Generator) GenericGenerator(intended string) string {
 	}
 
 	if err != nil {
-		//log.Println(err)
 		return fmt.Sprint(err)
 	}
 
