@@ -8,8 +8,10 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"os"
+	"path/filepath"
 	"reflect"
 	"regexp"
+	"runtime"
 	"strconv"
 	"strings"
 	"time"
@@ -98,7 +100,8 @@ func (g *Generator) formatToSlice(format string) []string {
 func (g *Generator) fileToSlice(fName string) ([]string, error) {
 	var res []string
 
-	path := build.Default.GOPATH + "/src/" + g.Pkg + "/data/" + g.Locale_ + "/" + fName
+	_, filePath, _, _:= runtime.Caller(1)
+	path := filepath.Dir(filePath) + "/data/" + g.Locale_ + "/" + fName
 	file, err := os.Open(path)
 	
 	if err != nil {
