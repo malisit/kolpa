@@ -4,12 +4,12 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
-	"go/build"
 	"io/ioutil"
 	"math/rand"
 	"os"
-	"reflect"
+	"path/filepath"
 	"regexp"
+	"runtime"
 	"strconv"
 	"strings"
 	"time"
@@ -98,9 +98,9 @@ func (g *Generator) formatToSlice(format string) []string {
 func (g *Generator) fileToSlice(fName string) ([]string, error) {
 	var res []string
 
-	path := build.Default.GOPATH + "/src/" + g.Pkg + "/data/" + g.Locale_ + "/" + fName
+	path := getCurrentDir() + "/data/" + g.Locale_ + "/" + fName
 	file, err := os.Open(path)
-	
+
 	if err != nil {
 		return nil, err
 	}
@@ -127,7 +127,7 @@ func (g *Generator) fileToSliceAll(fName string) ([]string, error) {
 	var err error
 	var file *os.File
 
-	path := build.Default.GOPATH + "/src/" + g.Pkg + "/data/" + g.Locale_ + "/"
+	path := getCurrentDir() + "/data/" + g.Locale_ + "/"
 
 	f, err := os.Open(path)
 
@@ -150,7 +150,7 @@ func (g *Generator) fileToSliceAll(fName string) ([]string, error) {
 
 	for _, name := range fNames {
 		file, err = os.Open(path + name)
-		
+
 		if err != nil {
 			return nil, err
 		}
@@ -173,7 +173,6 @@ func (g *Generator) fileToSliceAll(fName string) ([]string, error) {
 	return res, nil
 }
 
-
 // Returns random item from the given string slice.
 func getRandom(options []string) string {
 	rand.Seed(time.Now().UTC().UnixNano())
@@ -188,9 +187,15 @@ func randBool() bool {
 	return parseRandomToBoolean(val)
 }
 
+// getCurrentDir - Get dir path to current file (utils.go)
+func getCurrentDir() string {
+	_, filePath, _, _ := runtime.Caller(1)
+	return filepath.Dir(filePath)
+}
+
 // Returns all possible data for languages.
 func getLanguages() []string {
-	path := os.Getenv("GOPATH") + "/src/" + reflect.TypeOf(Generator{}).PkgPath() + "/data/"
+	path := getCurrentDir() + "/data/"
 	files, _ := ioutil.ReadDir(path)
 	var n string
 	var res []string
